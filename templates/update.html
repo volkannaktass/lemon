@@ -1,0 +1,25 @@
+{% extends "layoutwithout.html" %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+      <h3>Update Article</h3>
+      <hr>
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form.media}}
+          {{form|crispy}}
+                   
+          <!---<form action="https://v2.convertapi.com/convert/jpg/to/pdf?Secret=<YOUR SECRET HERE>&download=attachment" method="post" enctype="multipart/form-data">
+            <input type="file" name="File" />
+            <input type="submit" value="Convert file"/>
+        </form> -->
+        
+          <button type = "submit" class = "btn btn-danger">ADD</button>
+      </form>
+  
+  </div>
+</div>
+{% endblock body %}
