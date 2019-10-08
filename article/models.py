@@ -1,9 +1,13 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from departments.models import Lessons
+from django.contrib.auth.models import User
 # Create your models here.
 
 
+
 class Article(models.Model):
+    lessons = models.ForeignKey(Lessons,on_delete= models.CASCADE)
     author = models.ForeignKey("auth.User",on_delete = models.CASCADE)
     title = models.CharField(max_length = 50)
     content = RichTextField()
@@ -22,3 +26,4 @@ class Comment(models.Model):
         return self.comment_content
     class Meta:
         ordering = ['-comment_date']    
+

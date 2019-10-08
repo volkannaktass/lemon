@@ -120,3 +120,7 @@
     color: #ffffff !important;
     padding-bottom: 1px !important;
 }
+
+.navbar-brand {
+    padding: 0;
+}

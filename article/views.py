@@ -3,6 +3,7 @@ from .forms import ArticleForm
 from django.contrib import messages
 from .models import Article,Comment
 from django.contrib.auth.decorators import login_required
+#from departments.models import Category
 # Create your views here.
 
 @login_required(login_url = "user:login")
@@ -17,6 +18,7 @@ def articles(request):
     return render(request,"articles.html",{"articles":articles})
 
 def index(request):
+    #category = Category.objects.all()
     return render(request,"index.html")
 #    return HttpResponse("Anasayfa")
 #    return HttpResponse("<h3>Anasayfa</h3>")

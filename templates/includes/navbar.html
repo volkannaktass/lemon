@@ -11,7 +11,7 @@
             <ul class="navbar-nav mr-auto">
             {% if request.user.is_authenticated %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'article:articles' %}">Articles</a>
+                <a class="nav-link" href="{% url 'article:articles' %}">Article</a>
             </li>
             {% else %}
             {% endif %}
@@ -22,11 +22,21 @@
       <li class="nav-item active">  
             <a class="nav-link" href="{% url 'article:dashboard' %}">Control Panel</a>
       </li>
-      <li class="nav-item active">
-            <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
-      </li>
-      <li class="nav-item active">
-            <a class="nav-link" href="/user/profile">{{request.user.username}}</a>
+
+      <li>            
+            <div class="btn-group">
+            <button type="button" class="btn btn-danger">{{request.user.username}}</button>
+            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+            </button>
+                  <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'user:profile' %}">Profile</a>
+                        <a class="dropdown-item" href="#">Inbox</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                  <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
+            </div>
+            </div>
       </li>     
       {% else %}
       <li class="nav-item active">
