@@ -1,0 +1,104 @@
+{% extends "layoutwithout.html" %}
+
+{% block body %}
+<h3>Third Year Lessons</h3>
+<hr>
+
+<div class="row">
+  <div class="col-4">
+    <div class="accordion" id="semesterAccordion">
+      {% csrf_token %}
+
+      <div class="card">
+
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            First Semester
+            </button>
+          </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#semesterAccordion">
+          <div class="card-body">
+            <table class="table table-hover class-list-table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div class="row">
+                      <div class="col-3">Code</div>
+                      <div class="col-9">Class Name</div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for lesson in lessons %}
+                <tr>
+                  <th scope="row">
+                    <a href="#">
+                      <div class="row">
+                        <div class="col-3">{{lesson.keywords}}</div>
+                        <div class="col-9">{{lesson.title}}</div>
+                      </div>
+                    </a>
+                  </th>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="card-header" id="headingTwo">
+          <h2 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            Second Semester
+            </button>
+          </h2>
+        </div>
+
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#semesterAccordion">
+          <div class="card-body">
+            <table class="table table-hover class-list-table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div class="row">
+                      <div class="col-3">Code</div>
+                      <div class="col-9">Class Name</div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for lesson in lessons %}
+                <tr>
+                  <th scope="row">
+                    <a href="#">
+                      <div class="row">
+                        <div class="col-3">{{lesson.keywords}}</div>
+                        <div class="col-9">{{lesson.title}}</div>
+                      </div>
+                    </a>
+                  </th>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div> <!-- /.accordion -->
+  </div> <!-- /.col-4 -->
+</div> <!-- /.row -->
+
+
+{% endblock body %}

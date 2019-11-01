@@ -11,19 +11,28 @@
             <ul class="navbar-nav mr-auto">
             {% if request.user.is_authenticated %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'article:articles' %}">Article</a>
+                <a class="nav-link" href="{% url 'departments:lessons' %}">First Year</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'departments:lessons' %}">Second Year</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'departments:lessons' %}">Third Year</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'departments:lessons' %}">Fourth Year</a>
             </li>
             {% else %}
             {% endif %}
           </ul>
-           
+
       <ul class="navbar-nav ml-auto">
       {% if request.user.is_authenticated %}
-      <li class="nav-item active">  
+      <li class="nav-item active">
             <a class="nav-link" href="{% url 'article:dashboard' %}">Control Panel</a>
       </li>
 
-      <li>            
+      <li>
             <div class="btn-group">
             <button type="button" class="btn btn-danger">{{request.user.username}}</button>
             <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,7 +46,7 @@
             <a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
             </div>
             </div>
-      </li>     
+      </li>
       {% else %}
       <li class="nav-item active">
             <a class="nav-link" href="{% url 'user:register' %}">Register</a>
@@ -46,10 +55,10 @@
             <a class="btn btn-primary custom-button green-btn" href="{% url 'user:login' %}">Login</a>
       </li>
       {% endif %}
-      
-        
-        
-        
+
+
+
+
     </ul>
   </div>
 </nav>

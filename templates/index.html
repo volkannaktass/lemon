@@ -5,9 +5,13 @@
 <div style = "margin-top : 300px; margin-bottom : 250px;"
      class="header-content-wrap">
   <div class="container">
-
-  <h3 class="Montserrat">Welcome to LemoNotes</h3>
-  <p>You can reach all notes about your department from there..</p>
+  {% if request.user.is_authenticated %}
+  
+  {% else %}
+    <h3 class="Montserrat">Welcome to LemoNotes</h3>
+    <p>You can reach all notes about your department from there..</p>
+  {% endif %}
+  
     
   </div>
 </div>

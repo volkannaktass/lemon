@@ -4,7 +4,7 @@ from .models import UserProfile
 
 
 
-
+# Add username and provide to see username on the admin panel
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ["user","faculty","departments","student_number","phone_number","gender"]
     list_display_links = ["faculty","departments"]

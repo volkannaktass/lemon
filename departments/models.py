@@ -62,6 +62,12 @@ class Years(models.Model):
     def __str__(self):
         return self.title
 
+class Semesters(models.Model):
+    years = models.ForeignKey(Years,on_delete=models.CASCADE,blank=True, null=True)
+    title = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return self.title
 
 class Lessons(models.Model):
     STATUS = (
@@ -72,6 +78,7 @@ class Lessons(models.Model):
     #author = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
     departments = models.ForeignKey(Departments, on_delete=models.CASCADE,blank=True, null=True)
     years = models.ForeignKey(Years, on_delete=models.CASCADE,blank=True, null=True)
+    semesters = models.ForeignKey(Semesters,on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=150)
     user = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
     keywords= models.CharField(max_length=255, blank=True, null=True)

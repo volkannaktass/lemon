@@ -31,7 +31,7 @@ def register(request):
         #groups = form.cleaned_data.get("groups")
         #student_id = form.cleaned_data.get("student_id")
         newUser = User(first_name=first_name,last_name=last_name,username = username,email = email)
-        newUser.set_password(password)        
+        newUser.set_password(password)
         user = newUser.save()
         profile = profile_form.save(commit=False)
         profile.user = user
@@ -79,7 +79,7 @@ def loginUser(request):
     context = {
         "form":form
     }
-    
+
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -118,12 +118,12 @@ def deleteaccount(request):
         return render(request,"delete-account.html",context)
     else:
         raise Http404
-    
+
 
 
 def deleteac(request,id):
     user = get_object_or_404(User,id = id)
-    
+
     user.delete()
 
     return redirect("user:deleteaccount")
@@ -137,4 +137,3 @@ def copyaccount(request,id):
     #Article.objects.filter(author_id=author_id).update(author_id=ghost_user.id)
 
     return redirect("user:deleteaccount")
-    
