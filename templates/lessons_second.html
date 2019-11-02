@@ -33,7 +33,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for lesson in lessons %}
+                {% for lesson in lessonsfall %}
                 <tr>
                   <th scope="row">
                     <a href="#">
@@ -76,7 +76,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for lesson in lessons %}
+                {% for lesson in lessonsspring %}
                 <tr>
                   <th scope="row">
                     <a href="#">
@@ -95,10 +95,43 @@
 
       </div>
 
-
     </div> <!-- /.accordion -->
+
   </div> <!-- /.col-4 -->
+  <div class="col-8">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Note Name</th>
+                <th scope="col">U</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+  </div> <!-- /.col-8 -->
 </div> <!-- /.row -->
+
+
 
 
 {% endblock body %}

@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 #from article.views import index
 from article import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name = "index"),

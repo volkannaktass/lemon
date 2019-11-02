@@ -11,16 +11,16 @@
             <ul class="navbar-nav mr-auto">
             {% if request.user.is_authenticated %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'departments:lessons' %}">First Year</a>
+                <a class="nav-link" href="{% url 'departments:lessonsfirst' %}">First Year</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'departments:lessons' %}">Second Year</a>
+                <a class="nav-link" href="{% url 'departments:lessonssecond' %}">Second Year</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'departments:lessons' %}">Third Year</a>
+                <a class="nav-link" href="{% url 'departments:lessonsthird' %}">Third Year</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'departments:lessons' %}">Fourth Year</a>
+                <a class="nav-link" href="{% url 'departments:lessonsfourth' %}">Fourth Year</a>
             </li>
             {% else %}
             {% endif %}

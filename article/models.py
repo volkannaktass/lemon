@@ -1,12 +1,16 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from departments.models import Lessons
+from departments.models import Lessons,Semesters,Category,Departments,Years
 from django.contrib.auth.models import User
 # Create your models here.
 
 
 
 class Article(models.Model):
+    category = models.ForeignKey(Category,on_delete = models.CASCADE)
+    departments = models.ForeignKey(Departments,on_delete = models.CASCADE,blank=True, null=True)
+    years = models.ForeignKey(Years,on_delete = models.CASCADE,blank=True, null=True)
+    semesters = models.ForeignKey(Semesters,on_delete = models.CASCADE)
     lessons = models.ForeignKey(Lessons,on_delete= models.CASCADE)
     author = models.ForeignKey("auth.User",on_delete = models.CASCADE)
     title = models.CharField(max_length = 50)

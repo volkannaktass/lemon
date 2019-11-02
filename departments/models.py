@@ -76,6 +76,8 @@ class Lessons(models.Model):
     )
     #author = models.ForeignKey("UserProfile", on_delete=models.CASCADE,blank=True, null=True)
     #author = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
+    
+    #category = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
     departments = models.ForeignKey(Departments, on_delete=models.CASCADE,blank=True, null=True)
     years = models.ForeignKey(Years, on_delete=models.CASCADE,blank=True, null=True)
     semesters = models.ForeignKey(Semesters,on_delete=models.CASCADE,blank=True, null=True)
