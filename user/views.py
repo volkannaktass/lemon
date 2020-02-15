@@ -1,5 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import RegisterForm,LoginForm,UserProfileForm
+from .forms import (
+    RegisterForm,
+    LoginForm,
+    UserProfileForm,
+    EditProfileForm,
+    EditProfileForm2
+)
 #from .forms import RegisterForm
 from django.contrib import messages
 from django.contrib.auth.models import User #Group
@@ -9,6 +15,8 @@ from article.models import Article
 from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserChangeForm,PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 # Create your views here.
@@ -137,3 +145,45 @@ def copyaccount(request,id):
     #Article.objects.filter(author_id=author_id).update(author_id=ghost_user.id)
 
     return redirect("user:deleteaccount")
+
+
+#def user_edit_profile(request):
+ #   data = {'genders':request.user.userprofile.genders,'student_numbers':request.user.userprofile.student_numbers,'phone_numbers':request.user.userprofile.phone_numbers}
+  #  user_profile_form = UserProfileForm(request.POST or None,instance=request.user,initial=data)
+
+   # return render(request,'user_edit_profile.html',context={'form':user_profile_form})
+
+
+
+@login_required(login_url = "user:login")
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance= request.user)
+
+        if form.is_valid():
+            form.save()            
+            return redirect('user:edit_profile')
+
+    else:
+        form = EditProfileForm(instance=request.user)
+        args = {'form':form}
+        return render(request,'edit_profile.html',args)
+
+
+@login_required(login_url = "user:login")
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user= request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request,form.user)       
+            return redirect('user:edit_profile')
+            #return render(request,'')
+        else:
+            messages.info(request,"Your Password Could Not Be Verified!")
+            return redirect('user:change_password')
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form':form}
+        return render(request,'change_password.html',args)

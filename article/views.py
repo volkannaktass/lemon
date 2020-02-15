@@ -3,19 +3,24 @@ from .forms import ArticleForm
 from django.contrib import messages
 from .models import Article,Comment
 from django.contrib.auth.decorators import login_required
+from departments.models import Lessons
+from django.http import Http404
 #from departments.models import Category
 # Create your views here.
 
 @login_required(login_url = "user:login")
 def articles(request):
-    keyword = request.GET.get("keyword")
-    
-    if keyword:
-        articles = Article.objects.filter(title__contains = keyword)
-        return render(request,"articles.html",{"articles":articles})
-    articles = Article.objects.all()
+    if request.user.is_superuser:
+        keyword = request.GET.get("keyword")
 
-    return render(request,"articles.html",{"articles":articles})
+        if keyword:
+            articles = Article.objects.filter(title__contains = keyword)
+            return render(request,"articles.html",{"articles":articles})
+        articles = Article.objects.all()
+
+        return render(request,"articles.html",{"articles":articles})
+    else:
+        raise Http404
 
 def index(request):
     #category = Category.objects.all()
@@ -59,7 +64,6 @@ def detail(request,id):
     comments = article.comments.all()
     return render(request,"detail.html",{"article":article,"comments":comments})
 
-
 @login_required(login_url = "user:login")
 def updateArticle(request,id):
     article = get_object_or_404(Article,id = id,author = request.user)
@@ -75,7 +79,7 @@ def updateArticle(request,id):
 @login_required(login_url = "user:login")
 def deleteArticle(request,id):
     article =get_object_or_404(Article,id = id,author = request.user)
-    
+
     article.delete()
 
     messages.success(request,"Deleted with Success")
@@ -94,8 +98,36 @@ def addComment(request,id):
         newComment.save()
     return redirect(reverse("article:detail",kwargs={"id":id}))
 
-#def deleteComment(request,id):
-    article = get_object_or_404(Article,id = id)
 
-    Comment.delete()
-    return redirect(reverse("article:detail",kwargs={"id":id}))
+#def comment_approve(request, id):
+ #   comment = get_object_or_404(Comment, id=id)
+  #  comment.approve()
+   # return redirect(reverse("article:detail",kwargs={"id":id}))
+
+#def comment_remove(request, id):
+ #   comment = get_object_or_404(Comment, id=id)
+  #  comment.delete()
+   # return redirect(reverse("article:detail",kwargs={"id":id}))
+
+#def deleteComment(request,id):
+ #   article = get_object_or_404(Article,id = id)
+  #  if request.method == "POST":
+        
+
+   #     newComment = Comment(comment_author = request.user, comment_content = comment_content)
+    #    newComment.article = article
+     #   newComment.save()
+    #Comment.delete()
+    #return redirect(reverse("article:detail",kwargs={"id":id}))
+
+@login_required(login_url = "user:login")
+def showArticle(request,id):
+    #articlesnames = get_object_or_404(Article,lessons_id = lessons_id)
+    keyword = request.GET.get("keyword")
+
+    if keyword:
+        articlesnames = Article.objects.filter(lessons_id = id,title__contains = keyword)
+        return render(request,"articletable.html",{"articlesnames":articlesnames})
+    articlesnames = Article.objects.filter(lessons_id = id)
+
+    return render(request,"articletable.html",{"articlesnames":articlesnames})

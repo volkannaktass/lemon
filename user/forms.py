@@ -4,6 +4,7 @@ from .models import UserProfile
 from django.db import models
 #from django.contrib.auth import authenticate
 from departments.models import Category,Departments
+from django.contrib.auth.forms import UserChangeForm
 
 class LoginForm(forms.Form):
      username = forms.CharField(label = "Username")
@@ -73,3 +74,29 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('faculty','departments')
+
+
+
+
+class EditProfileForm(UserChangeForm):
+    
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'username',
+            'first_name',
+            'last_name',
+            #'phone_number',
+        )
+
+class EditProfileForm2(UserChangeForm):
+
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'username',
+            'first_name',
+            'last_name',
+        )

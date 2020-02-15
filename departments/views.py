@@ -11,10 +11,11 @@ def lessonsFOECEfirst(request):
     lessonsfall = Lessons.objects.filter(years_id = "1",departments_id = "1",semesters_id = "1")
     lessonsspring= Lessons.objects.filter(years_id = "1",departments_id = "1",semesters_id = "2")
     #x = Article.objects.filter(category_id = "1",departments_id = "1",years_id = "1",semesters_id = "1",lessons_id = lessons_id)
+    #articlesnames = Article.objects.filter(lessons_id = id)
     context = {
         "lessonsfall" : lessonsfall,
         "lessonsspring" : lessonsspring,
-        #"x" : x,
+        #"articlesnames" : articlesnames,
     }
     return render(request,"lessons_first.html",context)
 
@@ -49,4 +50,3 @@ def lessonsFOECEfourth(request):
     }
     return render(request,"lessons_fourth.html",context)
 
-    

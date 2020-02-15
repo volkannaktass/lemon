@@ -1,0 +1,46 @@
+{% extends "layoutwithout.html" %}
+{% block body %}
+<h3>Articles</h3>
+<hr>
+<div class="row">
+  <div class="col-md-10 offset-md-0">        
+      <div class="col-lg-8">        
+        <form style="float : left;">
+          {% csrf_token %} 
+          <input type="text" name = "keyword" class="input-sm" maxlength="64" placeholder="Search...">
+          <button type="submit" class="btn btn-danger">Search</button>
+        </form>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div class="col-8">
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Note Name</th>
+              <th scope="col">Author</th>
+              <th scope="col">Date</th>
+              <th scope="col">About</th>
+          </tr>
+      </thead>
+      <tbody>
+    {% for articlesname in articlesnames %}
+          <tr>
+              <th scope="row">{{articlesname.id}}</th>
+              <td><a href = "{% url 'article:detail' articlesname.id %}">{{articlesname.title}}</a></td>
+              <td>{{articlesname.author.username}}</td>
+              <td>{{articlesname.created_date}}</td>
+              <td>{{articlesname.about}}</td>
+          </tr>
+    {% endfor %}
+      </tbody>
+  </table>
+</div> <!-- /.col-8 -->
+
+
+{% endblock body %}

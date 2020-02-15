@@ -120,3 +120,18 @@
     color: #ffffff !important;
     padding-bottom: 1px !important;
 }
+
+.navbar-brand {
+    padding: 0;
+}
+
+
+
+.class-list-table th {
+  padding: 0;
+}
+.class-list-table .row {
+  padding: 0.75rem;
+  margin: 0;
+  text-align: left;
+}
