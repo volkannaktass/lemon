@@ -1,4 +1,2 @@
 /.vscode
-/.vscode/*
 /env
-/env/launch.json
