@@ -10,7 +10,7 @@ from .forms import (
 from django.contrib import messages
 from django.contrib.auth.models import User #Group
 from django.contrib.auth import login,authenticate,logout
-#from .models import UserProfile
+from .models import UserProfile
 from article.models import Article
 from django.http import Http404
 from django.contrib.auth import get_user_model
@@ -33,7 +33,7 @@ def register(request):
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
         email = form.cleaned_data.get("email")
-        #faculty = form.cleaned_data.get("faculty")
+        #category = form.cleaned_data.get("category")
         #departments = form.cleaned_data.get("departments")
         #first_name = form.cleaned_data.get("first_name")
         #groups = form.cleaned_data.get("groups")
@@ -41,9 +41,18 @@ def register(request):
         newUser = User(first_name=first_name,last_name=last_name,username = username,email = email)
         newUser.set_password(password)
         user = newUser.save()
+        print(user)
         profile = profile_form.save(commit=False)
-        profile.user = user
-        profile.save()
+        faculty = profile_form.cleaned_data.get('faculty')
+        departments = profile_form.cleaned_data.get('departments')
+        student_number = profile_form.cleaned_data.get('student_number')
+        userprofile = UserProfile.objects.get(user = user)
+        userprofile.faculty = faculty
+        userprofile.departments = departments
+        userprofile.student_number = student_number
+        userprofile.save()
+        #profile.user = user
+        #profile.save()
         login(request,newUser)
         messages.info(request,"Registration Successful...")
 

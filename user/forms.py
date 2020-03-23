@@ -73,7 +73,7 @@ class RegisterForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('faculty','departments')
+        fields = ('faculty','departments','student_number')
 
 
 

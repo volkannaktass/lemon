@@ -3,7 +3,8 @@ from .forms import ArticleForm
 from django.contrib import messages
 from .models import Article,Comment
 from django.contrib.auth.decorators import login_required
-from departments.models import Lessons
+from departments.models import Lessons,Departments,Years
+from user.models import UserProfile
 from django.http import Http404
 #from departments.models import Category
 # Create your views here.
@@ -24,6 +25,7 @@ def articles(request):
 
 def index(request):
     #category = Category.objects.all()
+   
     return render(request,"index.html")
 #    return HttpResponse("Anasayfa")
 #    return HttpResponse("<h3>Anasayfa</h3>")
@@ -131,3 +133,15 @@ def showArticle(request,id):
     articlesnames = Article.objects.filter(lessons_id = id)
 
     return render(request,"articletable.html",{"articlesnames":articlesnames})
+
+
+# def showuserdep(request,id):
+#     depnames = Departments.objects.filter(id=id,departments_id = id)
+#     context = {
+#         "depnames":depnames
+#     }
+#     return render(request,"layout.html",context)
+#def showYears(request):
+ #   years = Year.objects.all()
+  #  return render(request,"layout.html",{"years":years})
+

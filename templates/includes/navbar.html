@@ -10,6 +10,8 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
             {% if request.user.is_authenticated %}
+	    
+	      
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'departments:lessonsfirst' %}">First Year</a>
             </li>
@@ -22,6 +24,8 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'departments:lessonsfourth' %}">Fourth Year</a>
             </li>
+	     
+	    
             {% else %}
             {% endif %}
           </ul>
