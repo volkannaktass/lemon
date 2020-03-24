@@ -43,8 +43,9 @@ def register(request):
         #first_name = form.cleaned_data.get("first_name")
         #groups = form.cleaned_data.get("groups")
         #student_id = form.cleaned_data.get("student_id")
-        newUser = User(first_name=first_name,last_name=last_name,username = username,email = email)
-        newUser.set_password(password)
+        newUuser = User.objects.create_user(username,email,password)
+        newUser.first_name = first_name
+        newUser.last_name = last_name
         user = newUser.save()
         print(user)
         profile = profile_form.save(commit=False)
