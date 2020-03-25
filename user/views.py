@@ -43,10 +43,10 @@ def register(request):
         #first_name = form.cleaned_data.get("first_name")
         #groups = form.cleaned_data.get("groups")
         #student_id = form.cleaned_data.get("student_id")
-        newUuser = User.objects.create_user(username,email,password)
-        newUser.first_name = first_name
-        newUser.last_name = last_name
-        user = newUser.save()
+        user = User.objects.create_user(username,email,password)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
         print(user)
         profile = profile_form.save(commit=False)
         faculty = profile_form.cleaned_data.get('faculty')
@@ -59,7 +59,7 @@ def register(request):
         userprofile.save()
         #profile.user = user
         #profile.save()
-        login(request,newUser)
+        login(request,user)
         messages.info(request,"Registration Successful...")
 
         return redirect("index")
