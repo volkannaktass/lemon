@@ -6,7 +6,7 @@
 
 
 {% block body %}
-<h3>Second Year Lessons</h3>
+<h3>Common Courses</h3>
 <hr>
 
 <div class="row">
@@ -30,21 +30,19 @@
               <thead>
                 <tr>
                   <th scope="col">
-                    <div class="row">
-                      <div class="col-3">Code</div>
-                      <div class="col-9">Class Name</div>
+                    <div class="row">                     
+                      <div class="col-9">Common Courses Name</div>
                     </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {% for lesson in lessonsfall %}
+                {% for course in coursesfall %}
                 <tr>
                   <th scope="row">
-                    <a name="show-data" href="{% url 'article:articletable' lesson.id %}">
+                    <a name="show-data" href="{% url 'departments:commoncoursestable' course.id %}">
                       <div class="row">
-                        <div class="col-3">{{lesson.keywords}}</div>
-                        <div class="col-9">{{lesson.title}}</div>
+                        <div class="col-9">{{course.title}}</div>
                       </div>
                     </a>
                   </th>
@@ -74,20 +72,18 @@
                 <tr>
                   <th scope="col">
                     <div class="row">
-                      <div class="col-3">Code</div>
-                      <div class="col-9">Class Name</div>
+                      <div class="col-9">Common Courses Name</div>
                     </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {% for lesson in lessonsspring %}
+                {% for course in coursesspring %}
                 <tr>
                   <th scope="row">
-                    <a href="{% url 'article:articletable' lesson.id %}">
+                    <a name="show-data" href="{% url 'departments:commoncoursestable' course.id %}">
                       <div class="row">
-                        <div class="col-3">{{lesson.keywords}}</div>
-                        <div class="col-9">{{lesson.title}}</div>
+                        <div class="col-9">{{course.title}}</div>
                       </div>
                     </a>
                   </th>

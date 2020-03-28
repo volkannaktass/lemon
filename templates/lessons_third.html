@@ -1,5 +1,10 @@
 {% extends "layoutwithout.html" %}
 
+
+
+
+
+
 {% block body %}
 <h3>Third Year Lessons</h3>
 <hr>
@@ -18,7 +23,7 @@
             </button>
           </h2>
         </div>
-
+        
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#semesterAccordion">
           <div class="card-body">
             <table class="table table-hover class-list-table">
@@ -36,7 +41,7 @@
                 {% for lesson in lessonsfall %}
                 <tr>
                   <th scope="row">
-                    <a href="#">
+                    <a name="show-data" href="{% url 'article:articletable' lesson.id %}">
                       <div class="row">
                         <div class="col-3">{{lesson.keywords}}</div>
                         <div class="col-9">{{lesson.title}}</div>
@@ -49,7 +54,7 @@
             </table>
           </div>
         </div>
-
+        
       </div>
 
       <div class="card">
@@ -79,7 +84,7 @@
                 {% for lesson in lessonsspring %}
                 <tr>
                   <th scope="row">
-                    <a href="#">
+                    <a href="{% url 'article:articletable' lesson.id %}">
                       <div class="row">
                         <div class="col-3">{{lesson.keywords}}</div>
                         <div class="col-9">{{lesson.title}}</div>
@@ -98,37 +103,32 @@
     </div> <!-- /.accordion -->
 
   </div> <!-- /.col-4 -->
+  
+  <!--
   <div class="col-8">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Note Name</th>
-                <th scope="col">U</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
-        </tbody>
-    </table>
-  </div> <!-- /.col-8 -->
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Note Name</th>
+              <th scope="col">Author</th>
+              <th scope="col">Date</th>
+          </tr>
+      </thead>
+      <tbody>
+    {% for articlesname in articlesnames %}
+          <tr>
+              <th scope="row">{{articlesname.id}}</th>
+              <td><a href = "#">{{articlesname.title}}</a></td>
+              <td>{{articlesname.author.username}}</td>
+              <td>{{articlesname.created_date}}</td>
+          </tr>
+    {% endfor %}
+      </tbody>
+  </table>
+</div> <!-- /.col-8 --> 
+
+
 </div> <!-- /.row -->
 
 

@@ -1,0 +1,51 @@
+{% extends "layoutwithout.html" %}
+
+
+
+
+
+
+{% block body %}
+<h3>Faculty Common Courses</h3>
+<hr>
+
+<div class="row">
+     
+      {% csrf_token %}
+  
+  <div class="col-8">
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th scope="col">
+                    <div class="row">
+                      <div class="col-3">Code</div>
+                      <div class="col-9">Course Name</div>
+                    </div>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+    {% for course in courses %}
+          <tr>
+              <th scope="row">
+                    <a href="{% url 'article:articletable' course.id %}">
+                      <div class="row">
+                        <div class="col-3">{{course.keywords}}</div>
+                        <div class="col-9">{{course.title}}</div>
+                      </div>
+                    </a>
+               </th>
+          </tr>
+    {% endfor %}
+      </tbody>
+  </table>
+</div> <!-- /.col-8
+
+-->
+</div> <!-- /.row -->
+
+
+
+
+{% endblock body %}

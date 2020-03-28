@@ -1,0 +1,32 @@
+{% extends "layoutwithout.html" %}
+{% block body %}
+<h3>Courses</h3>
+<hr>
+
+<div class="col-8">
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th scope="col">Code</th>
+              <th scope="col">Course Name</th>
+          </tr>
+      </thead>
+      <tbody>
+    {% for lesson in lessons %}
+                <tr>
+                  <th scope="row">
+                    <a name="show-data" href="{% url 'article:articletable' lesson.id %}">
+                      <div class="row">
+                        <div class="col-3">{{lesson.keywords}}</div>
+                        <div class="col-9">{{lesson.title}}</div>
+                      </div>
+                    </a>
+                  </th>
+                </tr>
+     {% endfor %}
+      </tbody>
+  </table>
+</div> <!-- /.col-8 -->
+
+
+{% endblock body %}

@@ -30,7 +30,7 @@ class Departments(models.Model):
         (0, 'False'),
     )
     
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
     #parentid = models.IntegerField()
     title = models.CharField(max_length=150)
     user = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
@@ -69,6 +69,23 @@ class Semesters(models.Model):
     def __str__(self):
         return self.title
 
+
+
+class CommonCourses(models.Model):
+    semesters = models.ForeignKey(Semesters,on_delete=models.CASCADE,blank=True, null=True)
+    user = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
+    title = models.CharField(max_length=150)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+
+
+
+
 class Lessons(models.Model):
     STATUS = (
         (1, 'True'),
@@ -76,14 +93,14 @@ class Lessons(models.Model):
     )
     #author = models.ForeignKey("UserProfile", on_delete=models.CASCADE,blank=True, null=True)
     #author = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
-    
-    #category = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
+    commoncourses = models.ForeignKey(CommonCourses,on_delete=models.CASCADE,blank=True, null=True)
+    faculty = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
     departments = models.ForeignKey(Departments, on_delete=models.CASCADE,blank=True, null=True)
     years = models.ForeignKey(Years, on_delete=models.CASCADE,blank=True, null=True)
     semesters = models.ForeignKey(Semesters,on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=150)
     user = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
-    keywords= models.CharField(max_length=255, blank=True, null=True)
+    keywords= models.CharField(max_length=7, blank=True, null=True)
     #description= models.CharField(max_length=255, blank=True, null=True)    
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -93,3 +110,18 @@ class Lessons(models.Model):
     
     def __str__(self):
         return self.title
+
+# class FacultyCommonCourses(models.Model):
+#      faculty = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
+#      user = models.ForeignKey("auth.User",on_delete = models.CASCADE,blank=True, null=True)
+#      title = models.CharField(max_length=150)
+#      keywords= models.CharField(max_length=7, blank=True, null=True)
+#      create_at = models.DateTimeField(auto_now_add=True)
+#      update_at = models.DateTimeField(auto_now=True)
+
+#      def __str__(self):
+#          return self.title
+
+
+
+     
