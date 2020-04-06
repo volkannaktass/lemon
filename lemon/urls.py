@@ -18,7 +18,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-
+from lemon import views as lem_view
 #from article.views import index
 from article import views
 
@@ -31,6 +31,7 @@ urlpatterns = [
     path('articles/',include("article.urls")),
     path('user/',include("user.urls")),
     path('departments/',include("departments.urls")),
+    path('contact/',lem_view.contact,name = "contact"),
     path('password-reset/',
          auth_views.PasswordResetView.as_view(
              template_name='registration/password_reset.html'
