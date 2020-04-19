@@ -89,7 +89,11 @@ class EditProfileForm(UserChangeForm):
             'last_name',
             #'phone_number',
         )
-        
+class UserProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('image',)
+       
 class EditProfileForm2(UserChangeForm):
 
     class Meta:

@@ -4,7 +4,7 @@ from lemon.forms import ContactForm
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from dal import autocomplete
-from departments.models import *
+from departments.models import Category
 # Create your views here.
 
 def contact(request):

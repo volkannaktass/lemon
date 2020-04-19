@@ -4,6 +4,7 @@ from .forms import (
     LoginForm,
     UserProfileForm,
     EditProfileForm,
+    UserProfileUpdateForm,
     EditProfileForm2
 )
 #from .forms import RegisterForm
@@ -174,14 +175,20 @@ def copyaccount(request,id):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance= request.user)
-
-        if form.is_valid():
-            form.save()            
+        p_form = UserProfileUpdateForm(request.POST,request.FILES, instance= request.user.userprofile)
+        if form.is_valid() and p_form.is_valid():
+            form.save()
+            p_form.save()
+            messages.success(request,f"Your account has been updated!")         
             return redirect('user:edit_profile')
 
     else:
         form = EditProfileForm(instance=request.user)
-        args = {'form':form}
+        p_form = UserProfileUpdateForm(instance=request.user.userprofile)
+        args = {
+            'form':form,
+            'p_form':p_form
+            }
         return render(request,'edit_profile.html',args)
 
 

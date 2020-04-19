@@ -14,6 +14,7 @@ class UserProfile(models.Model):
     Other = "Other"
     Gender = ((Male,'Male'),(Female,"Female"),(Other,"Other"))
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics',verbose_name="Profile Image")
     faculty = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True,null=True)
     departments = models.ForeignKey(Departments,on_delete=models.CASCADE,blank=True,null=True)
     phone_number = models.CharField(max_length=11,verbose_name='Phone Number',blank=True)

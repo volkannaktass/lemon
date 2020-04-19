@@ -9,9 +9,12 @@
 <div class="row">
     <div class = "col-md-10 col-md-offset-3">
         <h2>Edit Profile</h2>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{form|crispy}}
+            <fieldset class="form-group">
+                {{p_form|crispy}}
+                {{form|crispy}}
+            </fieldset>            
             <a style="float: right" href="{% url 'user:change_password' %}">Change Password</a>
             <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok">
             </span>
