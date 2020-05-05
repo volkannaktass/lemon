@@ -15,13 +15,13 @@ class LoginForm(forms.Form):
 
 class RegisterForm(forms.Form):
     #user1 = models.ForeignKey(UserProfile, related_name='alluser', on_delete=models.CASCADE)
-    username = forms.CharField(max_length = 50,label = "Username")
-    password = forms.CharField(max_length=20,label = "Password",widget = forms.PasswordInput)
-    confirm = forms.CharField(max_length=20,label = "Confirm Password",widget = forms.PasswordInput)
+    username = forms.CharField(max_length = 50,label = "Username:")
+    password = forms.CharField(max_length=20,label = "Password:",widget = forms.PasswordInput)
+    confirm = forms.CharField(max_length=20,label = "Confirm Password:",widget = forms.PasswordInput)
     email = forms.EmailField(widget=forms.TextInput(),label=("Email address:"))
    # category=models.ForeignKey(Category,on_delete=models.CASCADE)
-    first_name = forms.CharField(max_length = 100,label = "Name")
-    last_name = forms.CharField(max_length=100,label="Surname")
+    first_name = forms.CharField(max_length = 100,label = "Name:")
+    last_name = forms.CharField(max_length=100,label="Surname:")
     #groups = forms.ModelChoiceField(queryset=Group.objects.all(),required=True)
     #student_id = forms.CharField(max_length= 8,label="Student Id")
     def clean(self):
