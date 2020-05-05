@@ -5,6 +5,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from dal import autocomplete
 from departments.models import *
+from django.contrib import messages
 # Create your views here.
 
 def contact(request):
@@ -36,11 +37,12 @@ def contact(request):
             email = EmailMessage(
                 "New contact form submission",
                 content,
-                "Your website" +'',
-                ['youremail@gmail.com'],
+                "Lemonotes" +'',
+                ['volkanaktas98@gmail.com'],
                 headers = {'Reply-To': contact_email }
             )
             email.send()
+            messages.success(request,"Your message has been sent. Thank You for your interest..")
             return redirect('contact')
 
     return render(request, 'contact.html', {

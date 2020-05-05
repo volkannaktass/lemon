@@ -90,10 +90,19 @@ class EditProfileForm(UserChangeForm):
             #'phone_number',
         )
 class UserProfileUpdateForm(forms.ModelForm):
+    #def __init__(self, *args, **kwargs):
+     #   super().__init__(*args, **kwargs)
+      #  widget = self.fields["image"].widget.attrs["class"] = "Picture",'placeholder':'choose image'
+        #widgets = {
+            #'image' : forms.ImageField(widget=forms.FileInput(attrs={'class': 'profile_picture','placeholder':'Choose Image'}))
+        #}
     class Meta:
         model = UserProfile
         fields = ('image',)
-       
+        #widgets = {
+        #    'image' : forms.TextInput(attrs={'class': 'input','placeholder':'Choose Image'})
+        #} 
+
 class EditProfileForm2(UserChangeForm):
 
     class Meta:

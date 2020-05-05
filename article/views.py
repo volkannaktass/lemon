@@ -95,32 +95,24 @@ def addComment(request,id):
         #comment_author = request.POST.get("comment_author")
         comment_content = request.POST.get("comment_content")
 
-        newComment = Comment(comment_author = request.user, comment_content = comment_content)
+        newComment = Comment(comment_author = request.user, comment_content = comment_content, comment_author_image = request.user.userprofile.image)
         newComment.article = article
         newComment.save()
     return redirect(reverse("article:detail",kwargs={"id":id}))
 
 
-#def comment_approve(request, id):
- #   comment = get_object_or_404(Comment, id=id)
-  #  comment.approve()
-   # return redirect(reverse("article:detail",kwargs={"id":id}))
 
-#def comment_remove(request, id):
- #   comment = get_object_or_404(Comment, id=id)
-  #  comment.delete()
-   # return redirect(reverse("article:detail",kwargs={"id":id}))
+@login_required
+def comment_remove(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    if request.user.username == comment.comment_author:
+        comment.delete()
+    return redirect('article:detail', id=comment.article.id)
 
-#def deleteComment(request,id):
- #   article = get_object_or_404(Article,id = id)
-  #  if request.method == "POST":
-        
+#def comment_edit(request,id):
+    #comment= get_object_or_404(Comment,id=id)
+    #if request.user.username == comment.comment_author:
 
-   #     newComment = Comment(comment_author = request.user, comment_content = comment_content)
-    #    newComment.article = article
-     #   newComment.save()
-    #Comment.delete()
-    #return redirect(reverse("article:detail",kwargs={"id":id}))
 
 @login_required(login_url = "user:login")
 def showArticle(request,id):

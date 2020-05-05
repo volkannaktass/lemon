@@ -1,13 +1,82 @@
 {% extends "layoutwithout.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.userprofile.image.url }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
-        </div>
+
+<div class="sidebar">
+  <img float: right; class="rounded-circle account-img"  src="{{ user.userprofile.image.url }}">
+  <br><br>
+  <ul>
+  <a href="#"><i class="fa fa-fw fa-home"></i> {{request.user.username}}</a>
+  <a href="#"><i class="fa fa-fw fa-wrench"></i>{{request.user.userprofile.student_number}}</a>
+  <a href="#"><i class="fa fa-fw fa-user"></i>{{request.user.userprofile.departments.title}}</a> 
+  <a href="#"><i class="fa fa-fw fa-envelope"></i>#{{count}}</a>
+  </ul>
+</div>
+
+<div class="container">
+{% if articles %}
+{% for article in articles %}
+<div class="row">
+  <div class="col-md-10 offset-md-3">  
+
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+
+        <!-- Title -->
+        <a href="{% url 'article:detail' article.id %}"><h2 class="mt-4">{{article.title}}</h2></a>
+
+        <!-- Author -->
+        <p class="lead">
+          
+         Published by {{article.author.username}} 
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>{{article.created_date}}</p>
+
+        <hr>
+
+        <!-- Preview Image -->
+        {% if article.article_image %}
+          <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt=""></a>                  
+        {% endif %}
+        
+        <hr>
+
+        <!-- Post Content -->
+        <p class="lead">
+            {{article.content|safe|truncatewords:50}}
+        </p>
+        <hr>
+        <a style="float : right;" href="{% url 'article:detail' article.id %}" class="btn btn-danger">Read More</a>
+          
+
+      </div>
+      
+      
       </div>
     </div>
+{% endfor %}
+
+
+
+{% else %}
+<div class="row">
+  <div class="col-md-10 offset-md-3">        
+      <div class="col-lg-8"> 
+          <div class = "alert alert-danger">
+             Article Not Found
+          </div>
+      </div>
+  </div>
+</div>
+{% endif %}
+
+</div>
+
+
+
+
 {% endblock body %}

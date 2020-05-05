@@ -5,20 +5,27 @@
 
 {% block body %}
 {% load crispy_forms_tags %}
+
+
 <title>Edit Profile</title>
 <div class="row">
     <div class = "col-md-10 col-md-offset-3">
         <h2>Edit Profile</h2>
+        <hr>
+        <br>
         <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+            {% csrf_token %}            
             <fieldset class="form-group">
                 {{p_form|crispy}}
+                <br>
                 {{form|crispy}}
-            </fieldset>            
+            </fieldset>
+            <div class="form-group">
             <a style="float: right" href="{% url 'user:change_password' %}">Change Password</a>
             <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok">
             </span>
             Submit</button>
+             </div>
         </form>
         
     </div>

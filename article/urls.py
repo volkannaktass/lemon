@@ -12,6 +12,7 @@ urlpatterns = [
    path('delete/<int:id>',views.deleteArticle,name = "delete"),
    path('',views.articles,name = "articles"),
    path('comment/<int:id>',views.addComment,name = "comment"),
+   path('comment/<int:id>/remove/', views.comment_remove, name='comment_remove'),
    #path('deletecomment/<int:id>',views.deleteComment,name = "deletecomment"),
    path('articletable/<int:id>',views.showArticle,name = "articletable"),
    #path('comment/<int:id>/approve/', views.comment_approve, name='comment_approve'),

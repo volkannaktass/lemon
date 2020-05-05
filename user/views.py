@@ -124,9 +124,9 @@ def logoutUser(request):
     return redirect("index")
 """END"""
 
-@login_required(login_url = "user:login")
-def profileUser(request):
-    return render(request,"profile.html")
+#@login_required(login_url = "user:login")
+#def profileUser(request):
+ #   return render(request,"profile.html")
 
 
 
@@ -175,8 +175,9 @@ def copyaccount(request,id):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance= request.user)
-        p_form = UserProfileUpdateForm(request.POST,request.FILES, instance= request.user.userprofile)
-        if form.is_valid() and p_form.is_valid():
+        p_form = UserProfileUpdateForm(request.POST,request.FILES, instance = request.user.userprofile)
+        if form.is_valid(): #and p_form.is_valid():
+            #val = p_form.cleaned_data.get("btn")
             form.save()
             p_form.save()
             messages.success(request,f"Your account has been updated!")         
@@ -190,6 +191,8 @@ def edit_profile(request):
             'p_form':p_form
             }
         return render(request,'edit_profile.html',args)
+
+
 
 
 @login_required(login_url = "user:login")
@@ -209,3 +212,17 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         args = {'form':form}
         return render(request,'change_password.html',args)
+
+
+
+
+
+@login_required(login_url = "user:login")
+def profileUser(request):
+    count = Article.objects.filter(author = request.user).count()
+    articles = Article.objects.filter(author=request.user)
+    context = {
+       'count':count,
+       'articles':articles
+    }
+    return render(request,"profile.html",context)    

@@ -13,7 +13,7 @@
         <!-- Author -->
         <p class="lead">
           
-         Published by {{article.author.username}}
+         Published by <a href="#">{{article.author.username}}</a>
         </p>
 
         <hr>
@@ -40,19 +40,25 @@
         <hr>
         {% if comments %}
         {% for comment in comments %}
+        {% if user.is_authenticated %}
         <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+          <img class="d-flex mr-3 rounded-circle" src="{{ comment.comment_author_image.url }}" alt="" height="50" width="50">
           <div class="media-body">
-            <h5 class="mt-0">{{comment.comment_author}}</h5>
+            <h5 style="color: blue;" class="mt-0">{{comment.comment_author}}
+            {% if request.user.username == comment.comment_author %}
+              <a href="{% url 'article:comment_remove' comment.id %}" style="float:right">&#9747;</a>
+            {% endif %}
+            </h5>
             <small>{{comment.comment_date}}</small> <br>
-            {{comment.comment_content}}
+            {{comment.comment_content|linebreaks}}
           </div>
         </div>
+        {% endif %}
         {% endfor %}
      
         {% else %}
         <div class = "alert alert-danger">
-          There is no comment, Make the first comment!
+          There is no comment :(   Make the first comment!
         </div>
         {% endif %}
       
