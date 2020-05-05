@@ -20,7 +20,7 @@ class UserProfile(models.Model):
     departments = models.ForeignKey(Departments,on_delete=models.CASCADE,blank=True,null=True)
     phone_number = models.CharField(max_length=11,verbose_name='Phone Number',blank=True)
     gender = models.CharField(max_length=6,default=3,verbose_name='Gender',choices=Gender,blank=True)
-    student_number = models.PositiveIntegerField(verbose_name='Student Number:*',validators=[MaxValueValidator(99999999)],blank=True, null=True)    
+    student_number = models.CharField(max_length=8,verbose_name='Student Number:*',blank=True, null=True)    
     #student_id=models.CharField(max_length=8,  unique=True)
 
     image_height = models.PositiveIntegerField(null=True, blank=True, editable=False, default="100")
