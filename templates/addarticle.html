@@ -9,9 +9,9 @@
       <hr>
       <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-          {{form.media}}
+          <!--{{form.media}} -->
           {{form|crispy}}
-                   
+          {{formset|crispy}}
           <!---<form action="https://v2.convertapi.com/convert/jpg/to/pdf?Secret=<YOUR SECRET HERE>&download=attachment" method="post" enctype="multipart/form-data">
             <input type="file" name="File" />
             <input type="submit" value="Convert file"/>

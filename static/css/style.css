@@ -201,3 +201,17 @@
 .sidebar img {
     margin-left: 50px;
 }
+
+
+
+.gallery {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+
+.gallery .img-thumbnail {
+    max-width: 200%;
+    height: 400px;
+    width: 300px;
+}

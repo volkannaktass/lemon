@@ -7,15 +7,15 @@ from departments.models import Category,Departments
 # Create your models here.
 from django.db.models.signals import post_save
 from PIL import Image
-from django.core.validators import MaxValueValidator
+#from django.core.validators import MaxValueValidator
 
 class UserProfile(models.Model):
     Male = 'Male'
     Female = 'Female'
     Other = "Other"
     Gender = ((Male,'Male'),(Female,"Female"),(Other,"Other"))
-    user = models.OneToOneField(User,on_delete=models.CASCADE,null=True) 
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics',verbose_name="Profile Image",editable=True)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,null=True) #related_name='profil'
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics',verbose_name="Profile Image:",editable=True)
     faculty = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True,null=True)
     departments = models.ForeignKey(Departments,on_delete=models.CASCADE,blank=True,null=True)
     phone_number = models.CharField(max_length=11,verbose_name='Phone Number',blank=True)
@@ -29,6 +29,7 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return "{0}".format(self.image)
 
+
     def save(self, ** kwargs):
         if not self.image:
             return            
@@ -40,9 +41,10 @@ class UserProfile(models.Model):
         image = image.resize(size, Image.ANTIALIAS)
         image.save(self.image.path)
 
-
-    def str(self):
-        return self.student_number
+    def __str__(self):
+        return self.user.username
+    #def str(self):
+        #return self.student_number
 
 def create_profile(sender,**kwargs):
     if kwargs['created']:

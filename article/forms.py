@@ -1,9 +1,9 @@
 from django import forms
-from .models import Article,Comment
+from .models import Article,Comment,Images,ArticleDeleteRequest
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ["commoncourses","lessons","title","about","content","article_image"]
+        fields = ["commoncourses","lessons","title","about","content","using_status"]
 
 
 
@@ -11,4 +11,16 @@ class ArticleForm(forms.ModelForm):
 
  #   class Meta:
   #      model = Comment
-   #     fields = ('comment_author', 'comment_content')
+   #     fields = ('comment_author', 'comment_contentclass ImageForm(forms.ModelForm):
+
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Images
+        fields = ["article_image"]
+
+
+class ArticleDeleteRequestForm(forms.ModelForm):
+    class Meta:
+        model = ArticleDeleteRequest
+        fields = ["request_author","email","request_content"]

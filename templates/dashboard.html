@@ -17,8 +17,10 @@
       <th scope="col">Title</th>
       <th scope="col">Author</th>
       <th scope="col">Date</th>
+      <th scope="col">Actuality</th>
       <th scope="col">Update</th>
       <th scope="col">Delete</th>
+      <th scope="col">Delete Request</th>
     </tr>
   </thead>
   <tbody>
@@ -28,8 +30,10 @@
       <td><a href = "{% url 'article:detail' article.id %}">{{article.title}}</a></td>
       <td>{{article.author.username}}</td>
       <td>{{article.created_date}}</td>
+      <td>{{article.using_status}}</td>
       <td><a href="{% url 'article:update' article.id %}" class = "btn btn-danger">Update</a></td>
       <td><a href="{% url 'article:delete' article.id %}" class = "btn btn-danger">Delete</a></td>
+      <td><a href="{% url 'article:deleterequest' article.id %}" class = "btn btn-danger">Delete Request</a></td>
     </tr>
     {% endfor %}
     <!--- <tr>

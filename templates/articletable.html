@@ -1,7 +1,10 @@
 {% extends "layoutwithout.html" %}
 {% block body %}
-<h3>Articles</h3>
-<hr>
+<div class="col-md-12 offset-md-2">
+<div class="col-lg-8">
+  <h3>Articles</h3>
+  <hr>
+</div>
 <div class="row">
   <div class="col-md-10 offset-md-0">        
       <div class="col-lg-8">        
@@ -12,11 +15,11 @@
         </form>
       </div>
   </div>
-</div>
+</div><br>
 
 
 
-
+{% if articlesnames %}
 <div class="col-8">
   <table class="table table-hover">
       <thead>
@@ -26,6 +29,7 @@
               <th scope="col">Author</th>
               <th scope="col">Date</th>
               <th scope="col">About</th>
+              <th scope="col">Actuality</th>
           </tr>
       </thead>
       <tbody>
@@ -36,11 +40,19 @@
               <td>{{articlesname.author.username}}</td>
               <td>{{articlesname.created_date}}</td>
               <td>{{articlesname.about}}</td>
+              <td>{{articlesname.using_status}}</td>
           </tr>
     {% endfor %}
       </tbody>
   </table>
 </div> <!-- /.col-8 -->
 
-
+{% else %}     
+      <div class="col-lg-8"> 
+          <div class = "alert alert-danger">
+             Article Not Found
+          </div>
+      </div>
+{% endif %}
+</div>
 {% endblock body %}

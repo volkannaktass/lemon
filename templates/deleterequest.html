@@ -1,0 +1,16 @@
+{% extends 'layoutwithout.html' %}
+{% block title %}Delete Request Form - {{ block.super }}{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+<h1>Delete Request Form</h1>
+<form  role="form" action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type = "submit" class = "btn btn-danger">Send Message</button>
+</form>
+</div>
+</div>
+{% endblock body %}

@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User #Group
 from django.contrib.auth import login,authenticate,logout
 from .models import UserProfile
-from article.models import Article
+from article.models import Article,Images
 from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -163,11 +163,6 @@ def copyaccount(request,id):
     return redirect("user:deleteaccount")
 
 
-#def user_edit_profile(request):
- #   data = {'genders':request.user.userprofile.genders,'student_numbers':request.user.userprofile.student_numbers,'phone_numbers':request.user.userprofile.phone_numbers}
-  #  user_profile_form = UserProfileForm(request.POST or None,instance=request.user,initial=data)
-
-   # return render(request,'user_edit_profile.html',context={'form':user_profile_form})
 
 
 
@@ -221,8 +216,9 @@ def change_password(request):
 def profileUser(request):
     count = Article.objects.filter(author = request.user).count()
     articles = Article.objects.filter(author=request.user)
+    
     context = {
        'count':count,
-       'articles':articles
+       'articles':articles,
     }
     return render(request,"profile.html",context)    

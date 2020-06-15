@@ -1,8 +1,9 @@
 {% extends "layoutwithout.html" %}
 {% block body %}
+<div class="col-lg-8">
 <h3>Courses</h3>
 <hr>
-
+</div>
 <div class="col-8">
   <table class="table table-hover">
       <thead>
@@ -14,14 +15,8 @@
       <tbody>
     {% for lesson in lessons %}
                 <tr>
-                  <th scope="row">
-                    <a name="show-data" href="{% url 'article:articletable' lesson.id %}">
-                      <div class="row">
-                        <div class="col-3">{{lesson.keywords}}</div>
-                        <div class="col-9">{{lesson.title}}</div>
-                      </div>
-                    </a>
-                  </th>
+                    <td><a name="show-data" href="{% url 'article:articletable' lesson.id %}">{{lesson.keywords}}</a></td>                  
+                    <td><a name="show-data" href="{% url 'article:articletable' lesson.id %}">{{lesson.title}}</a></td>                                       
                 </tr>
      {% endfor %}
       </tbody>
