@@ -2,7 +2,7 @@
 {% block body %}
 <div class="col-md-12 offset-md-2">
 <div class="col-lg-8">
-  <h3>Articles</h3>
+  <h3>All Articles</h3>
   <hr>
 </div>
 <div class="row">
@@ -19,26 +19,34 @@
 
 
 
-{% if articlesnames %}
+{% if articles %}
 <div class="col-8">
   <table class="table table-hover">
       <thead>
           <tr>
+              <th scope="col">Id</th>
               <th scope="col">Note Name</th>
               <th scope="col">Author</th>
               <th scope="col">Date</th>
               <th scope="col">About</th>
               <th scope="col">Actuality</th>
+              <th scope="col">Update</th>
+              <th scope="col">Copy</th>
+              <th scope="col">Delete</th>
           </tr>
       </thead>
       <tbody>
-    {% for articlesname in articlesnames %}
+    {% for article in articles %}
           <tr>
-              <td><a href = "{% url 'article:detail' articlesname.id %}">{{articlesname.title}}</a></td>
-              <td>{{articlesname.author.username}}</td>
-              <td>{{articlesname.created_date}}</td>
-              <td>{{articlesname.about}}</td>
-              <td>{{articlesname.using_status}}</td>
+              <th scope="row">{{article.id}}</th>
+              <td><a href = "{% url 'article:detail' article.id %}">{{article.title}}</a></td>
+              <td>{{article.author.username}}</td>
+              <td>{{article.created_date}}</td>
+              <td>{{article.about}}</td>
+              <td>{{article.using_status}}</td>
+              <td><a href="{% url 'article:update' article.id %}" class = "btn btn-danger">Update</a></td>
+              <td><a href="{% url 'article:copypost' article.id %}" class = "btn btn-danger">Copy</a></td>
+              <td><a href="{% url 'article:delete' article.id %}" class = "btn btn-danger">Delete</a></td>
           </tr>
     {% endfor %}
       </tbody>

@@ -8,9 +8,10 @@ admin.site.register(Comment)
 #admin.site.register(Article)
 
 def copy(modeladmin, request, queryset):
-    pass
+    ghostuser = User.objects.get(username="ghostuser")
+    queryset.update(author=ghostuser)
 
-copy.short_description = "Mark selected stories as published"
+copy.short_description = "Copy article to ghostuser"
 
 
 @admin.register(Article)

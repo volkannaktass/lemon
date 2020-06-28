@@ -7,6 +7,7 @@ from departments.models import Lessons,Departments,Years
 from user.models import UserProfile
 from django.http import Http404
 from django.forms import modelformset_factory
+from django.contrib.auth.models import User
 # Create your views here.
 
 @login_required(login_url = "user:login")
@@ -198,3 +199,39 @@ def deleteRequest(request,id):
         return render(request,"deleterequest.html",{"form":form})
     else:
         raise Http404
+
+
+
+
+
+
+#def deletePost(request):
+ #   articles = Article.objects.all()
+  #  context = {
+   #     "articles": articles
+    #}
+
+    #if request.user.is_superuser:
+     #   keyword = request.GET.get("keyword")
+      #  if keyword:
+       #     articles = Article.objects.filter(title__contains = keyword)
+        #    context = {
+         #       "articles": articles
+          #  }   
+           # return render(request,"delete-post-admin.html",context)
+        #articles = Article.objects.all()
+        #context = {
+        #    "articles": articles
+        #}
+        #return render(request,"delete-post-admin.html",context)
+    #else:
+     #   raise Http404
+
+
+
+
+#def copyPost(request,id):
+ #   ghostuser = User.objects.get(username="ghostuser")
+  #  Article.objects.filter(id=id).update(author=ghostuser)
+
+   # return redirect("article:deletepost")
