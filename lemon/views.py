@@ -3,7 +3,7 @@ from django.http import Http404
 from lemon.forms import ContactForm
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
-from dal import autocomplete
+#from dal import autocomplete
 from departments.models import *
 from django.contrib import messages
 # Create your views here.
@@ -50,15 +50,15 @@ def contact(request):
     })
 
 
-class CategoryAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Category.objects.none()
+# class CategoryAutocomplete(autocomplete.Select2QuerySetView):
+#     def get_queryset(self):
+#         # Don't forget to filter out results depending on the visitor !
+#         if not self.request.user.is_authenticated():
+#             return Category.objects.none()
 
-        qs = Category.objects.all()
+#         qs = Category.objects.all()
 
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+#         if self.q:
+#             qs = qs.filter(name__istartswith=self.q)
 
-        return qs
+#         return qs
