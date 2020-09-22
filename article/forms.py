@@ -1,5 +1,8 @@
 from django import forms
-from .models import Article,Comment,Images,ArticleDeleteRequest
+
+from .models import Article, ArticleDeleteRequest, Comment, Images
+
+
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article

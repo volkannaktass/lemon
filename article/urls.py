@@ -1,5 +1,7 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
+
 from . import views
 
 app_name = "article"
@@ -18,8 +20,8 @@ urlpatterns = [
    #path('comment/<int:id>/approve/', views.comment_approve, name='comment_approve'),
    #path('comment/<int:id>/remove/', views.comment_remove, name='comment_remove'),
    path('deleterequest/<int:id>',views.deleteRequest,name = "deleterequest"),
+   #path('user-upload-photo/',views.userUploadPhoto,name = "user-upload-photo"),
+   #path('basic-upload/', views.BasicUploadView.as_view(), name='basic-upload'),
    #path('deletepost/',views.deletePost,name = "deletepost"),
    #path('copypost/<int:id>',views.copyPost,name = "copypost"),
 ]
-
-

@@ -1,0 +1,81 @@
+{% extends "layoutwithout.html" %}
+{% load static %}
+
+ <script src="{% static 'js/file_upload/vendor/jquery.ui.widget.js' %}"></script>
+        <script src="{% static 'js/file_upload/jquery.iframe-transport.js' %}"></script>
+        <script src="{% static 'js/file_upload/jquery.fileupload.js' %}"></script>
+
+        <script src="{% static 'js/file_upload/basic_upload.js' %}"></script>
+
+
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+  
+
+      <h3>Create Article</h3>
+      <hr>
+      <form method="POST" enctype="multipart/form-data">
+     {% csrf_token %}
+          {{articleForm.media}}
+          {{articleForm|crispy}}
+	{# 1. BUTTON TO TRIGGER THE ACTION #}
+	<!-- <button type="button" class="mt-5 mb-3 btn btn-primary" id="js-upload-photos">
+	  <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos
+	</button> -->
+
+	{# drag and drop files to upload #}
+	<div class="well text-muted text-center" style="padding-top: 4rem; padding-bottom: 4rem;">
+	  <span class="glyphicon glyphicon-arrow-down" style="font-size: 4rem;"></span>
+	  <h3>Drop Photos Here to Upload</h3>
+	</div>
+
+	{# 2. FILE INPUT TO BE USED BY THE PLUG-IN #}
+	{# name="model field name = file in models.py" #}
+	<input id="fileupload" type="file" name="article_image" multiple
+	       style="display: none;"
+	       data-url="{% url 'article:basic-upload' %}"
+	       data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+	{# 3. TABLE TO DISPLAY THE UPLOADED PHOTOS #}
+	<table id="gallery" class="table table-bordered">
+	  <thead>
+	    <tr>
+	      <th>Photo</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for photo in photos %}
+	      <tr>
+	        <td><a href="{{ photo.url }}">{{ photo.name }}</a></td>
+	      </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+
+	{# progress bar for showing upload progress of files #}
+	<div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">Uploading...</h4>
+	      </div>
+	      <div class="modal-body">
+	        <div class="progress">
+	          <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+ <br><br>
+          <button type = "submit" class = "btn btn-danger">ADD</button>
+      </form>
+  
+  </div>
+</div>
+{% endblock %}
+

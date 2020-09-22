@@ -1,13 +1,18 @@
-from django.shortcuts import render,HttpResponse,redirect,get_object_or_404,reverse,HttpResponseRedirect
-from .forms import ArticleForm,ImageForm,ArticleDeleteRequestForm
 from django.contrib import messages
-from .models import Article,Comment,Images,ArticleDeleteRequest
 from django.contrib.auth.decorators import login_required
-from departments.models import Lessons,Departments,Years
-from user.models import UserProfile
-from django.http import Http404
-from django.forms import modelformset_factory
 from django.contrib.auth.models import User
+from django.forms import modelformset_factory
+from django.http import Http404, JsonResponse
+from django.shortcuts import (HttpResponse, HttpResponseRedirect,
+                              get_object_or_404, redirect, render, reverse)
+from django.views import View
+
+from departments.models import Departments, Lessons, Years
+from user.models import UserProfile
+
+from .forms import ArticleDeleteRequestForm, ArticleForm, ImageForm
+from .models import Article, ArticleDeleteRequest, Comment, Images
+
 # Create your views here.
 
 @login_required(login_url = "user:login")
@@ -50,36 +55,50 @@ def dashboard(request):
 
 @login_required(login_url = "user:login")
 def addArticle(request):
-    ImageFormset = modelformset_factory(Images, form=ImageForm, extra=5)
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        formset = ImageFormset(request.POST or None,request.FILES or None)
-        if form.is_valid() and formset.is_valid():
-            article = form.save(commit=False)
-            article.author = request.user
-            article.save()
+    articleForm = ArticleForm(request.POST or None,request.FILES or None)
+    imageForm = ImageForm(request.POST or None,request.FILES or None) 
+    if articleForm.is_valid() and imageForm.is_valid():
+        article = articleForm.save(commit=False)
+        article.author = request.user
+        
 
-            images = formset.save(commit=False)
-            for image in images:
-                image.article = article
-                image.save()
-                
-            #for f in formset:
-             #   try:
-              #      photo = Images(article=article)
-               #     photo.save()
-                #except Exception as e:
-                 #   break
-            messages.success(request,"Created with Success")
-            return redirect("article:dashboard")
-    else:
-        form = ArticleForm()
-        formset = ImageFormset(queryset=Images.objects.none())
+       # image = imageForm.save()
+        #imag
+        #image.article = article
+       # image.save()
+        article.save()
+
+
+        messages.success(request,"The article was created successfully")
+        return redirect("article:dashboard")
     context = {
-        'form': form,
-        'formset': formset,
-    }
+        "articleForm":articleForm,
+        "imageForm":imageForm
+    }    
     return render(request,"addarticle.html",context)
+
+
+
+# def userUploadPhoto(request):
+#     if request.method == "POST":
+#         form = userUploadPhoto(request.POST,files=request.FILES)
+#         if form.is_valid():
+#             image = form.save(commit=False)
+#             #image.save()
+#             data={'is_valid':True,'image-url':image.article_image.url,'name': image.article_image.name,'success':'Photos Uploaded'}
+#             # URL atayabilriz..
+#             return JsonResponse(data=data)
+#         else:
+#             return JsonResponse(data={'is_valid':False})
+#     else:
+#         return HttpResponseRedirect(reverse('article:addarticle'))
+
+
+
+
+
+
+
 
 @login_required(login_url = "user:login")
 def detail(request,id):
@@ -235,3 +254,27 @@ def deleteRequest(request,id):
   #  Article.objects.filter(id=id).update(author=ghostuser)
 
    # return redirect("article:deletepost")
+
+
+
+# class BasicUploadView(View):
+#     def get(self, request):
+#         photos = Images.objects.all()
+#         return render(self.request, 'addarticle.html', {'photos':photos})
+
+#     def post(self, request):
+#         if request.method == 'POST':
+#             #articleForm = ArticleForm(request.POST)
+#             form = ImageForm(self.request.POST, self.request.FILES)
+#             if form.is_valid() and articleForm.is_valid():
+#                 photo = form.save()
+#                 #article = form.save(commit=False)
+#                 #article.author = request.user
+#                 #photo.article = article
+#                 #article.save()
+#                 data = {'is_valid': True, 'name': photo.article_image.name, 'url': photo.article_image.url}
+#             else:
+#                 data = {'is_valid': False}
+#             return JsonResponse(data)
+#         else:
+#             return HttpResponseRedirect(reverse('article:addarticle'))

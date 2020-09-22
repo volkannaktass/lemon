@@ -1,8 +1,11 @@
-from django.db import models
 from ckeditor.fields import RichTextField
-from departments.models import Lessons,Semesters,Category,Departments,Years,CommonCourses
 from django.contrib.auth.models import User
+from django.db import models
+
+from departments.models import (Category, CommonCourses, Departments, Lessons,
+                                Semesters, Years)
 from user.models import UserProfile
+
 # Create your models here.
 
 
@@ -65,7 +68,7 @@ class Comment(models.Model):
         
 class Images(models.Model):
     article  = models.ForeignKey(to=Article,on_delete = models.CASCADE,blank=True, null=True,related_name='resimler')
-    article_image = models.ImageField(blank=True, null=True, verbose_name="Article's Image Upload")
+    article_image = models.FileField(blank=True, null=True, verbose_name="Article's Image Upload")
 
 
     def __str__(self):
