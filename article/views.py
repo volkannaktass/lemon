@@ -12,7 +12,7 @@ from user.models import UserProfile
 
 from .forms import ArticleDeleteRequestForm, ArticleForm, ImageForm
 from .models import Article, ArticleDeleteRequest, Comment, Images
-
+ 
 # Create your views here.
 
 @login_required(login_url = "user:login")
@@ -105,7 +105,7 @@ def detail(request,id):
     #article = Article.objects.filter(id = id).first()
     article = get_object_or_404(Article,id = id)
     images = Images.objects.filter(article=article)
-    comments = article.comments.all()
+    comments = article.comments.all() #.filter(article=article)
     return render(request,"detail.html",{"article":article,"comments":comments,"images":images})
 
 @login_required(login_url = "user:login")
@@ -148,14 +148,18 @@ def deleteArticle(request,id):
 
     return redirect("article:dashboard")
 #IMPORTANT
+
 def addComment(request,id):
     article = get_object_or_404(Article,id = id)
     profil = UserProfile.objects.get(user=request.user)
     if request.method == "POST":
     
         comment_content = request.POST.get("comment_content")
-    #    'User' object has no attribute 'profile'
-        newComment = Comment(comment_author = profil, comment_content = comment_content)
+        rate = request.POST.get("rate")
+        print(rate)
+        #    'User' object has no attribute 'profile'
+        newComment = Comment(comment_author = profil, comment_content = comment_content, rate = rate)
+       # newComment.rate=rate
         newComment.article = article
         newComment.save()
     return redirect(reverse("article:detail",kwargs={"id":id}))

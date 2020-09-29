@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import Article,Comment,Images,ArticleDeleteRequest
 # Register your models here.
 
-admin.site.register(Comment)
+#admin.site.register(Comment)
 
 #admin.site.register(Article)
 
@@ -25,6 +25,15 @@ class ArticleAdmin(admin.ModelAdmin):
     class Meta:
         model = Article
 
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["article","comment_author","rate","comment_date"]
+    readonly_fields = ["comment_author","rate","comment_content","article"]                
+  
+
+        
 
 @admin.register(Images)
 class ImagesAdmin(admin.ModelAdmin):

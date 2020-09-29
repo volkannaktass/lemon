@@ -51,7 +51,7 @@ class Comment(models.Model):
     comment_author = models.ForeignKey(to=UserProfile,on_delete=models.CASCADE,related_name='yorumlar')
     comment_content = models.CharField(max_length=200,verbose_name="Comment")
     comment_date = models.DateTimeField(auto_now_add=True)
-    
+    rate = models.IntegerField(default=1)
 
     def __str__(self):
         return self.comment_content
