@@ -186,7 +186,28 @@
     padding: 0px 10px;
 }
 
+.hovercik{
+    text-decoration: none;
+}
 
+.hovercik:hover{
+    background-color: yellow;
+}
+
+.rating {
+	direction: rtl;
+	unicode-bidi: bidi-override;
+	color: #ddd; /* Personal choice */
+}
+.rating input {
+	display: none;
+}
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked + label,
+.rating input:checked + label ~ label {
+	color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
+}
 /* Add media queries for small screens (when the height of the screen is less than 450px, add a smaller padding and font-size) */
 
 @media screen and (max-height: 450px) {

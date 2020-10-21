@@ -155,7 +155,7 @@ def addComment(request,id):
     if request.method == "POST":
     
         comment_content = request.POST.get("comment_content")
-        rate = request.POST.get("rate")
+        rate = request.POST.get("rating")
         print(rate)
         #    'User' object has no attribute 'profile'
         newComment = Comment(comment_author = profil, comment_content = comment_content, rate = rate)

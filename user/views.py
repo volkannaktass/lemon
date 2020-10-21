@@ -222,3 +222,13 @@ def profileUser(request):
        'articles':articles,
     }
     return render(request,"profile.html",context)    
+
+
+
+
+
+# def checkArticleShare(request):
+#     user = User.objects.all()
+#     for id in user.id:
+#         article = Article.objects.filter(author_id = id)
+#         article.created_date
