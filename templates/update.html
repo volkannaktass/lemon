@@ -11,11 +11,50 @@
           {% csrf_token %}
           {{form.media}}          
           {{form|crispy}}
-          {{formset.management_form}}
-	  {% for f in formset %}
-	    {{f|crispy}}
-	  {% endfor %}
-          <!---<form action="https://v2.convertapi.com/convert/jpg/to/pdf?Secret=<YOUR SECRET HERE>&download=attachment" method="post" enctype="multipart/form-data">
+          {{imageForm|crispy}}
+          {% if attachedImage %}
+          <table id="gallery" class="table table-bordered">
+            <thead>
+              <tr>
+                 <th>Attached Images </th>
+              </tr>
+            </thead>
+          <tbody>
+          {% for image in attachedImage %}
+            <tr>
+            <td><a href="{{ image.article_image.url
+            }}">{{image.article_image.name }}</a><a href="{% url 'article:deleteimage' image.id %}" style="float:right">&#128465;</a>
+            </td>
+            </tr>
+        {% endfor %}
+          </tbody>
+         </table>
+       {% endif %}
+
+        <hr>
+          {{fileForm|crispy}}
+          {% if attachedFiles %}
+          <table id="gallery" class="table table-bordered">
+            <thead>
+              <tr>
+                 <th>Attached Files </th>
+              </tr>
+            </thead>
+          <tbody>
+          {% for file in attachedFiles %}
+            <tr>
+            <td><a href="{{ file.myFile.url }}">{{file.myFile.name }}</a><a href="{% url 'article:deletefile' file.id %}" style="float:right">&#128465;</a>
+            </td>
+            </tr>
+        {% endfor %}
+          </tbody>
+         </table>
+       {% endif %}
+
+        <hr>
+
+
+        <!---<form action="https://v2.convertapi.com/convert/jpg/to/pdf?Secret=<YOUR SECRET HERE>&download=attachment" method="post" enctype="multipart/form-data">
             <input type="file" name="File" />
             <input type="submit" value="Convert file"/>
         </form> -->

@@ -31,6 +31,7 @@ urlpatterns = [
     path('articles/',include("article.urls")),
     path('user/',include("user.urls")),
     path('departments/',include("departments.urls")),
+    path('announcements/',include("announcements.urls")),
     path('contact/',lem_view.contact,name = "contact"),
     #path('country-autocomplete/',CategoryAutocomplete.as_view(),name = "country-autocomplete"),
     path('password-reset/',

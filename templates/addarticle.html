@@ -6,31 +6,23 @@
 {% block body %}
 {% load crispy_forms_tags %}
 
+
+ 
+
 <div class="row">
   <div class="col-md-6 offset-md-3">
   
 
       <h3>Create Article</h3>
       <hr>
-      <form method="POST" enctype="multipart/form-data">
+      <form method="POST" action="{% url 'article:addarticle' %}" enctype="multipart/form-data">
      {% csrf_token %}
           {{articleForm.media}}
           {{articleForm|crispy}}
-          {{imageForm.media}}
-          {{imageForm|crispy}}
-          <!---<form action="https://v2.convertapi.com/convert/jpg/to/pdf?Secret=<YOUR SECRET HERE>&download=attachment" method="post" enctype="multipart/form-data">
-            <input type="file" name="File" />
-            <input type="submit" value="Convert file"/>
-        </form> -->
-  
-	{# 2. FILE INPUT TO BE USED BY THE PLUG-IN #}
-	{# name="model field name = file in models.py" #}
-	<input id="fileupload" type="file" name="article_image" multiple
-	       style="display: none;"
-	    
-
-  
-       <br><br>
+          {{ form|crispy }}
+     {{ fileForm|crispy }}
+       
+      
           <button type = "submit" class = "btn btn-danger">ADD</button>
       </form>
   

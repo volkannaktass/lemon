@@ -1,0 +1,22 @@
+ [x] Installing Java build requirements   Reading package lists...
+Building dependency tree...
+Reading state information...
+Package ia32-libs is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+However the following packages replace it:
+  lib32z1
+
+Package defoma is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package lib32asound2 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'defoma' has no installation candidate
+E: Package 'lib32asound2' has no installation candidate
+E: Package 'ia32-libs' has no installation candidate
+19489's retcode: 100
+failed

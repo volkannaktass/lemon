@@ -216,7 +216,7 @@ def change_password(request):
 def profileUser(request):
     count = Article.objects.filter(author = request.user).count()
     articles = Article.objects.filter(author=request.user)
-    
+   
     context = {
        'count':count,
        'articles':articles,

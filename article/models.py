@@ -75,6 +75,13 @@ class Images(models.Model):
         return self.article.title + "Image"
 
 
+class Files(models.Model):
+    article  = models.ForeignKey(to=Article,on_delete = models.CASCADE,blank=True, null=True,related_name='files')
+    myFile = models.FileField(blank=True, null=True, verbose_name="Article's File Upload")
+
+
+
+    
 
 class ArticleDeleteRequest(models.Model):
     article = models.ForeignKey(Article,on_delete = models.CASCADE,blank=True, null=True)

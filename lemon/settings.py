@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_cleanup",
     "departments",
+    "announcements",
 ]
 
 MIDDLEWARE = [

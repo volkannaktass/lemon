@@ -26,21 +26,8 @@
         {% endif %}</p>
 
         <hr>
-
-        <!-- Preview Image -->
-        <!--{% if images %}-->
-            <br>
-	   <!--  {% for image in images %} -->
-	   <!--  <div class="responsive"> -->
-	   <!--    <div class="gallery"> -->
-	   <!-- 	  <a href="{{image.article_image.url}}"><img class="img-fluid -->
-	   <!-- 	  rounded" src="{{image.article_image.url}}" alt=""></a> -->
-	   <!--    </div> -->
-	   <!--  </div> -->
-	   <!-- {% endfor %} -->
-	   <!--    <br><br<br><br><hr> -->
-								     <!-- {% endif %}-->
-
+          
+     <!-- Images --> 
 	{% if images.count != 0 and images.count > 1 %}
         <div class="row gallery">
 	  {% for image in images %}
@@ -59,13 +46,25 @@
 	       <br><br<br><br><hr>
         {% endif %}
 	       
-      <!--  {% if article.articleFile %}
-          <p>Files:</p>
-          <a href="{{article.articleFile.url}}">{{article.articleFile}}</a>
-          <hr>
-        {% endif %}-->
+        <!-- Files -->
+        {% if files %}
+          <table id="gallery" class="table table-bordered">
+            <thead>
+              <tr>
+                 <th>Attached Files </th>
+              </tr>
+            </thead>
+          <tbody>
+          {% for file in files %}
+            <tr>
+            <td><a href="{{ file.myFile.url }}">{{ file.myFile.name }}</a></td>
+            </tr>
+        {% endfor %}
+          </tbody>
+         </table>
+       {% endif %}
 
-
+        <hr>
         <!-- Post Content -->
         <p class="lead">
             {{article.content|safe|linebreaks}}
@@ -79,7 +78,7 @@
         {% if user.is_authenticated %}
         <div class="media mb-4">
           <img class="d-flex mr-3 rounded-circle" src="{{ comment.comment_author.image.url }}" alt="" height="50" width="50">
-          <div class="media-body">
+          <div class="media-body" style="with: 15px;">
             <h5 style="color: blue;display: inline;">
                 {{comment.comment_author}} 
             {% if request.user.id == comment.comment_author.user_id %}
@@ -88,9 +87,10 @@
             </h5>
              <p style="color:gray;display: inline;"><small>{{comment.comment_date}}</small></p>
 
-           <h5 style="color:red;display: inline;float:right;"><code>Rating: {{ comment.rate }}/5</code></h5>
+           <h5 class="mr-1" style="color:red;display: inline;float:right;"><code>Rating: {{ comment.rate }}/5</code></h5>
            <br>
-           {{comment.comment_content|linebreaks}}
+           <p>{{comment.comment_content|linebreaks}}</p>
+         
           </div>
         </div>
         {% endif %}
@@ -117,34 +117,18 @@
                 <textarea name = "comment_content" class="form-control" rows="3"></textarea>
            <!--  </div>  
               <div class="form-group">-->              
-                <div>
+                <div class="d-flex justify-content-start d-flex
+                            align-items-center mt-2">
                   <strong class="text-uppercase">Your
                     Rating: </strong>
-                  <div class="rating" style="width: 20rem; display: flex; justify-content:left ;">
+                  <div class="rating" style="width: 20rem;">
 	                  <input id="rating-5" type="radio" name="rating" value="5"/><label for="rating-5"><i class="fas fa-2x fa-star"></i></label>
 	                  <input id="rating-4" type="radio" name="rating" value="4"/><label for="rating-4"><i class="fas fa-2x fa-star"></i></label>
 	                  <input id="rating-3" type="radio" name="rating" value="3"/><label for="rating-3"><i class="fas fa-2x fa-star"></i></label>
 	                  <input id="rating-2" type="radio" name="rating" value="2"/><label for="rating-2"><i class="fas fa-2x fa-star"></i></label>
 	                  <input id="rating-1" type="radio" name="rating" value="1"/><label for="rating-1"><i class="fas fa-2x fa-star"></i></label>
                   </div>
-               <!--   <div class="stars">
-                    
-                  <!-- <a class="hovercik" href="#"><i class="fas fa-star fa-2x">1</i></a>
-                    <i class="fas fa-star fa-2x">2</i>
-                    <i class="fas fa-star fa-2x">3</i>
-                    <i class="fas fa-star fa-2x">4</i>
-                    <i class="fas fa-star fa-2x">5</i> -->
-             <!--       <input type="radio" id="star1" name="rate"
-                           value="1" /><label for="star1"></label></input>
-                    <input type="radio" id="star2" name="rate"
-                           value="2" /><label for="star2"></label></input>
-                    <input type="radio" id="star3" name="rate"
-                           value="3" /><label for="star3"></label></input>
-                    <input type="radio" id="star4" name="rate"
-                           value="4" /><label for="star4"></label></input>
-                    <input type="radio" id="star5" name="rate"
-                           value="5"
-                           /><label for="star5"></label></input> -->
+
                   </div>  <!-- end of stars -->
                 </div><!-- end of input-rating -->
 

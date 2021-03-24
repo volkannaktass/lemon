@@ -1,0 +1,104 @@
+What is the Difference Between RISC and CISC Instruction Sets?
+
+CISC stands for Complex Instruction Set Computer, while RISC stands for Reduced Instruction Set Computer.
+Explaining what the difference is today, is harder than when RISC first came out because both RISC and CISC processor have stolen ideas form each other, and there has been a heavy marketing campaign with the interest of bluring the distinction.
+
+
+A Detour on Marketing Disinformation
+Back in 1987, the top of the line x86 processor was an intel 386DX, while a top of the line RISC processor was MIPS R2000.
+Despite the fact that the intel processor had more transistors, 275 000 vs 115 000 on the MIPS and had twice as much cache, the x86 processor was completely demolished in performance tests.
+Both processors ran at 16 MHz clock rate, but the RISC processor had 2–4 times higher performance, depending on benchmark used.
+Thus it is not strange that by the early 90s it had become a generally accepted idea that RISC processors had vastly better performance.
+Intel thus started getting a perception problem in the market. They had problems convincing investors and buyers that their outdated CISC design could beat a RISC processor.
+Thus Intel began marketing their chips as being RISC processors, with a simple decoding stage in front which turned CISC instructions into RISC instructions.
+Thus Intel could present themselves in an attractive way: They would say with our chips you still get technologically superior RISC processors but our RISC processors understands x86 instructions which you already know and love.
+But let us clarify this right away: There are no RISC internals in x86 chips. That is just a marketing ploy. Bob Colwells, one of the main creators of the intel Pentium Pro, regarded as the chip with RISC inside makes this clear himself.
+You will however see this falsehood propagated all over the internet, because Intel was really good at pushing this marketing ploy. It works because there are some half truths to it. But in order to really understand RISC vs CISC you really have to begin by dispensing with this myth.
+Thinking that a CISC processor can have a RISC processor inside it will just confuse you about the difference between RISC and CISC.
+
+
+Pipelining: A RISC Innovation
+Another core idea of RISC was pipelining. Let me give you a simple analogy to give a motivation for what this is about.
+Think of shopping in the grocery store. Now this works a bit different in every country, but I am basing this on how it works in my native Norway. You can divide the activities at the cash register in multiple steps:
+Put the items you bought on the conveyer belt, and get them scanned.
+Use the payment terminal to pay for the goods just scanned.
+Pack the goods you just paid for into bags.
+If this happened in a non-pipeline fashion, which is how most CISC processor operated initially, then the next customer would not begin putting their groceries on the conveyer belt until you had packed up all your groceries and left.
+This is inefficient, because the conveyer belt could be used to scan items while you pack. Even the payment terminal could be used while you pack. Resources are thus under utilized.
+We can think of each step as taking a clock cycle or time unit. That means it takes 3 time units to process each customer. Thus in 9 time units you have only processed 3 customers.
+However we could pipeline this process. Once I start operating the payment terminal, the next customer could put their food products on the conveyor belt.
+When I start packing, this customer could use the payment terminal which I just finished using. A third customer could at this point begin putting their groceries on the conveyor belt.
+The result of this approach is that every time unit somebody will be finish packing and leaving with their groceries. Thus in 9 time units you would process 6 customers. As time increases, you would get close to processing one customer in just 1 time unit, all thanks to pipelining. That is a 9x speedup.
+We could describe using the cash register as having a latency of 3 time units, but a throughput of one shopping per 1 time unit.
+In microprocessor terminology this would mean 1 instruction has a latency of 3 clock cycles, but an average throughput of 1 instruction per clock cycle.
+Now there was a bunch of assumption I put into this example, which was that every stage in the checkout took equal amounts of time. That putting groceries on the conveyor belt took about the same time as operating the payment terminal or packing the groceries.
+If the times varies a lot for each stage, this does not work well. E.g. if somebody has a lot of groceries on the conveyor belt, then the payment terminal and packing area remain unused for many time unites, dropping the efficiency of the whole thing.
+RISC designers understood this. Thus they tried to standardize how long each instruction is and split up what an instruction does into stages which take roughly the same time. That way each resource inside the CPU can remain utilized to the max constantly as instructions get processed.
+E.g. if we look at the ARM RISC processor, it has a 5-stage pipeline for processing instructions:
+Fetch instruction from memory and update program counter to be able to fetch next instruction next clock cycle.
+Decode instruction. Meaning figure out what it is supposed to do. That means activating various electric wires to toggle on different parts of the CPU we are using to perform the instruction.
+Execute involves using the Arithmetic Logic Unit (ALU) or perform shift operations.
+Memory Access data in memory if relevant. That is what a load instruction would do.
+Write back results of previous operation to relevant register.
+The ARM instructions have sections dealing with each of these parts, and each stage typically takes 1 clock cycle. This makes it easy to push ARM instructions through a pipeline.
+E.g. because each instruction has the same size, the Fetch stage knows how to get the next instruction. It doesn’t need to decode first.
+With CISC instructions is this tricky. Instructions can be variable length. So you don’t really know until you decode parts of the instruction where the next instruction will be.
+The second problem is that CISC instructions can have arbitrary complexity. Making multiple memory accesses and doing a whole host of things which means you cannot easily divide a CISC instruction into cleanly separate parts which can execute in a staged fashion.
+Pipelining was the killer feature, which really caused early RISC processors to destroy their CISC counterparts in performance.
+
+
+Compressed Instruction Sets
+Compressed instruction sets is a relatively new idea in the RISC world to reduce the memory bloat issue that RISC faces in competition with CISC.
+Because it is new, ARM had to retrofit this as ARM was not originally designed with this in mind while the modern RISC-V ISA has a compressed instruct set designed in from the beginning.
+This is a twist on the CISC idea. Remember CISC could have really short and really long instructions.
+RISC cannot easily add short instructions as it complicates how the pipelines work. Instead designers came up with the idea of compressed instructions.
+Basically this means that a frequently used subset of the normal 32-bit instructions are fitted into 16-bit instructions. Thus each time the RISC processor fetches an instruction, it is actually potentially fetching two instructions.
+In e.g. RISC-V there will be a special flag that indicates whether it got a compressed instruction or not. It if is compressed, it will decompress to two separate 32-bit instructions.
+This is important, because it means the rest of the CPU can operate as normal. It sees the same nice uniform 32-bit instructions where all the different stages are encoded in predictable standard locations.
+Hence compressed instructions doesn’t really add any new instructions. This relies heavily on smart assemblers or compilers. A compressed instruction has fewer bits available and hence cannot possibly do all the variation of things a 32-bit instruction can do.
+Hence a compressed instruction may only be able to access the 8 most used registers. Not all 32. I may not be able to load equally large number constants or memory offsets.
+Thus it is up to the assembler or compiler to figure out whether a particular pair of instructions can be packed together or not. The assembler will have to look for opportunities to perform compression.
+So while this looks a bit like CISC, it really isn’t. The rest of the CPU, the pipeline etc sees the same 32 bit instructions as usual.
+On ARM you even have to switch mode to execute compressed instructions. The compressed instruction set on ARM is called Thumb. So this is quite different from CISC. You would not perform a mode change to run a short instruction.
+Compressed instruction sets have been a game changer for RISC. Some RISC variants manage to use fewer bytes than x86 to for the same programs using this strategy.
+
+
+
+
+
+Hyper-threading or Hardware Threads
+
+
+Another trick CISC employed to get back at RISC was to use hyper-threading.
+Remember micro-ops aren’t easy to make that cleanly. Your pipeline will still likely not be filled up in as regular interval as a RISC pipeline.
+The trick then is to use hyper-threading. A CISC CPU would take in multiple streams of instructions. Both instruction streams would be hacked to pieces and turned into micro-ops.
+Because this process is imperfect you will get a number of gaps in the pipeline. But by having an extra stream of instructions you can push in other micro-ops into these gaps and thus keep the pipeline full.
+This tactic is in fact also useful on RISC processor, because not every RISC instruction can execute in the same time frame. Memory access e.g. will often take longer time. The same goes for saving and restoring registers with those complex microcoded instructions some RISC processors use. There will also be jumps in the code which will cause gaps in the pipeline.
+Hence more advance and high performance RISC CPUs such as the IBM POWER CPUs will use hardware threads as well.
+However my understanding is that hyper-threading is a trick that benefits CISC more. Because the production of micro-ops is less perfect on CISC they get more gaps to fill and hence hyper-threading can boost performance more.
+If your pipelines stay full, there is nothing to gain from hyper-threading/hardware-threads.
+Hardware threads can also present a security risk. Intel has faced security problems with hardware threads because one instruction stream can influence another. The details of this I don’t know. But apparently some vendors choose to turn off Hardware threads for this reason.
+Hardware threads as a rule of thumb give about 20% speed boost. So a 5 core CPU with hardware threads perform similar to a 6 core CPU without hardware threads. But as I said this number will depend a lot on your CPU architecture.
+Anyway that is one of the reasons that a number of high performance ARM chip makers such as Ampere, makes an 80-core CPU, the Ampere Altra, which does not use hardware threading. In fact I am not sure if any ARM processor use hardware threading.
+The Ampere is for use in data centers where security would be important.
+
+
+
+Does the RISC vs CISC distinction still make sense?
+
+
+
+Yes, despite what people are saying these are still fundamentally different philosophies. It may not matter much for high end chips as they have such high transistor count that the complexity in chopping up complex x86 instructions is dwarfed by everything else.
+Yet these chips still look quite different and you approach them in a different manner.
+Some RISC characteristics do not make as much sense anymore. RISC instruction sets are not necessarily all that small anymore. Of course it depends a lot on how you count.
+Looking at RISC-V may give a good sense of the difference. RISC-V is built upon the idea of being able to tailor make particular chips where you can choose which instruction set extensions you are using.
+However there is still a core minimal instruction set, and this is very RISC like:
+Fixed size
+Instructions designed to use specific parts of CPU in a predictable manner for facilitate pipelining.
+Load/Store architecture. Most instructions operate on registers. Loading and storing to memory is generally done with specific instructions only for that purpose.
+Lots of registers to avoid frequent memory access.
+CISC instruction in contrast are still variable length. People can argue that micro-ops are RISC like, but micro-code is an implementation detail very close to hardware.
+One of the key ideas of RISC was to push a lot of heavy lifting over to the compiler. That is still the case. Micro-ops cannot be re-arranged by the compiler for optimal execution.
+Time is more critical when running micro-ops than when compiling. It is an obvious advantage in making it possible for advance compiler to rearrange code rather than relying on precious silicon to do it.
+While RISC processors have gotten more specialized instructions over the years, e.g. for vector processing. They still lack the complexity of memory access modes that many CISC instructions have.
+

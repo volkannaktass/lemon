@@ -1,7 +1,9 @@
 {% extends "layoutwithout.html" %}
 {% load crispy_forms_tags %}
+
 {% block body %}
 
+<aside>
 <div class="sidebar">
   <img float: right; class="rounded-circle account-img"  src="{{ request.user.userprofile.image.url }}">
   <br><br>
@@ -11,7 +13,9 @@
   <a href="#"><i class="fa fa-fw fa-user"></i>{{request.user.userprofile.departments}}</a> 
   <a href="#"><i class="fa fa-fw fa-envelope"></i>#{{count}}</a>
   </ul>
-</div>
+  </aside>
+
+
 
 <div class="container">
 {% if articles %}
@@ -41,14 +45,18 @@
         </p>
 
         <hr>
-
-        <!-- Preview Image -->
-	{% if article.resimler.count != 0 %}
-          <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.resimler.first.article_image.url}}" alt=""></a>
-	{% endif %}  
         
+        <!-- Preview Image -->
+            <!-- eger related name vermediysen image_set yapman lazim
+         image modelini gosterir -->
+	{% if article.resimler.count != 0 %}
+          <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.resimler.all.0.article_image.url}}" alt=""></a>
+         <!--  <p>{{article.resimler.all}}{{ article.id}}</p>
+         queryseti gormek icin -->
+       
+          {% endif %}
         <hr>
-
+ 
         <!-- Post Content -->
         <p class="lead">
             {{article.content|safe|truncatewords:50}}
@@ -80,7 +88,6 @@
 
 </div>
 
-
-
+</div>
 
 {% endblock body %}

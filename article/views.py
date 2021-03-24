@@ -10,9 +10,9 @@ from django.views import View
 from departments.models import Departments, Lessons, Years
 from user.models import UserProfile
 
-from .forms import ArticleDeleteRequestForm, ArticleForm, ImageForm
-from .models import Article, ArticleDeleteRequest, Comment, Images
- 
+from .forms import ArticleDeleteRequestForm, ArticleForm, ImageForm,FileForm
+from .models import Article, ArticleDeleteRequest, Comment, Images,Files
+from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 @login_required(login_url = "user:login")
@@ -54,46 +54,97 @@ def dashboard(request):
     return render(request,"dashboard.html",context)
 
 @login_required(login_url = "user:login")
+@require_http_methods(["GET","POST"])
 def addArticle(request):
     articleForm = ArticleForm(request.POST or None,request.FILES or None)
-    imageForm = ImageForm(request.POST or None,request.FILES or None) 
-    if articleForm.is_valid() and imageForm.is_valid():
+    form = ImageForm(request.POST or None,request.FILES or None)
+    fileForm = FileForm(request.POST or None,request.FILES or None)
+    images = request.FILES.getlist('article_image')
+    files = request.FILES.getlist('myFile')    
+    if articleForm.is_valid() and form.is_valid() and fileForm.is_valid():
         article = articleForm.save(commit=False)
         article.author = request.user
-        
-
-       # image = imageForm.save()
-        #imag
-        #image.article = article
-       # image.save()
         article.save()
-
-
-        messages.success(request,"The article was created successfully")
+        for i in images:
+            image_instance = Images(article_image=i,article=article)
+            image_instance.save()
+        for f in files:
+            file_instance = Files(myFile=f,article=article)
+            file_instance.save()
+    
+        messages.success(request,"The article was created successfully!")
         return redirect("article:dashboard")
-    context = {
-        "articleForm":articleForm,
-        "imageForm":imageForm
-    }    
+    context = {"form":form,
+               "articleForm":articleForm,
+               "fileForm":fileForm
+               } 
     return render(request,"addarticle.html",context)
 
 
 
-# def userUploadPhoto(request):
-#     if request.method == "POST":
-#         form = userUploadPhoto(request.POST,files=request.FILES)
-#         if form.is_valid():
-#             image = form.save(commit=False)
-#             #image.save()
-#             data={'is_valid':True,'image-url':image.article_image.url,'name': image.article_image.name,'success':'Photos Uploaded'}
-#             # URL atayabilriz..
-#             return JsonResponse(data=data)
-#         else:
-#             return JsonResponse(data={'is_valid':False})
-#     else:
-#         return HttpResponseRedirect(reverse('article:addarticle'))
+@login_required(login_url = "user:login")
+def updateArticle(request,id):
+    article = get_object_or_404(Article,id = id,author = request.user)
+    attachedImage = Images.objects.filter(article=article)#article.resimler.all()[:10]
+    attachedFiles = Files.objects.filter(article=article)#article.files.all()[:10]
+    #print(type(attachedImage))
+    form = ArticleForm(request.POST or None,request.FILES or None,instance=article)
+    imageForm = ImageForm(request.POST or None,request.FILES or None)
+    fileForm = FileForm(request.POST or None,request.FILES or None)
+    images = request.FILES.getlist('article_image')
+    files = request.FILES.getlist('myFile') 
+    if form.is_valid() and imageForm.is_valid() and fileForm.is_valid():
+        article = form.save(commit=False)
+        article.author = request.user
+        article.save()
+        for i in images:
+            image_instance = Images(article_image=i,article=article)
+            image_instance.save()
+        for f in files:
+            file_instance = Files(myFile=f,article=article)
+            file_instance.save()
 
 
+        messages.success(request,"Updated with Success")
+        return redirect("article:dashboard")
+    context = {
+        "form":form,
+        "imageForm":imageForm,
+        "fileForm":fileForm,
+        "attachedImage":attachedImage,
+        "attachedFiles":attachedFiles
+               } 
+
+    return render(request,"update.html",context)
+
+@login_required(login_url = "user:login")
+def deleteImage(request,id):
+    image = get_object_or_404(Images,id = id)
+    tmp = image.article_id
+    image.delete()
+    return HttpResponseRedirect(reverse('article:update', args=(tmp,)))
+    """(Bu SO cevabında belirtildiği gibi, tek öğeli tuple'ların parantezlerle çevrili bir ifadeden bir demeti tanımlayan belirsizliği gidermek için takip eden virgül gereklidir args=(obj.pk,))
+
+Alternatif olarak, dokümanlarda belirtildiği gibi, bir liste kullanmak iyi sonuç verir: args=[obj.pk] """
+
+@login_required(login_url = "user:login")
+def deleteFile(request,id):
+    file = get_object_or_404(Files,id = id)
+    tmp = file.article_id
+    file.delete()
+    return HttpResponseRedirect(reverse('article:update', args=(tmp,)))
+
+def upload_pdf(request):
+    if request.method == 'POST':
+         form = ImageForm(request.POST, request.FILES)
+         files = request.FILES.getlist('article_image')
+         if form.is_valid():
+             for f in files:
+                 file_instance = Images(article_image=f)
+                 file_instance.save()
+    else:
+         form = ImageForm()
+    return render(request, 'upload_pdf.html', {'form': form})
 
 
 
@@ -105,38 +156,11 @@ def detail(request,id):
     #article = Article.objects.filter(id = id).first()
     article = get_object_or_404(Article,id = id)
     images = Images.objects.filter(article=article)
+    a = len(images)
+    files = Files.objects.filter(article=article)
     comments = article.comments.all() #.filter(article=article)
-    return render(request,"detail.html",{"article":article,"comments":comments,"images":images})
+    return render(request,"detail.html",{"article":article,"comments":comments,"images":images,"files":files,"range":range(a)})
 
-@login_required(login_url = "user:login")
-def updateArticle(request,id):
-    article = get_object_or_404(Article,id = id,author = request.user)
-    form = ArticleForm(request.POST or None,request.FILES or None,instance=article)
-    ImageFormset = modelformset_factory(Images, form=ImageForm, extra=5)
-    formset = ImageFormset(request.POST or None,request.FILES or None)
-    if form.is_valid() and formset.is_valid():
-        article = form.save(commit=False)
-        article.author = request.user
-        article.save()
-
-        data = Images.objects.filter(article=article)
-        for index, f in enumerate(formset):
-            if f.cleaned_data:
-                if f.cleaned_data['id'] is None:
-                    photo = Images(article=article, article_image=f.cleaned_data.get('article_image'))
-                    photo.save()
-                elif f.cleaned_data['article_image'] is False:
-                    photo = Images.objects.get(id=request.POST.get('form-' + str(index) + '-id'))
-                    photo.delete()
-                else:
-                    photo = Images(article=article, article_image=f.cleaned_data.get('article_image'))
-                    d = Images.objects.get(id=data[index].id)
-                    d.image = photo.image
-                    d.save()
-
-        messages.success(request,"Updated with Success")
-        return redirect("article:dashboard")
-    return render(request,"update.html",{"form":form,"formset":formset})
 
 @login_required(login_url = "user:login")
 def deleteArticle(request,id):
@@ -185,8 +209,23 @@ def showArticle(request,id):
 
     if keyword:
         articlesnames = Article.objects.filter(lessons_id = id,title__contains = keyword)
+        # comments = Comment.objects.filter(article = articlesnames)
+
+        # ratelst = []
+        # for i in comments:
+        #     ratelst.append(i.rate)
+
+        # avg = sum(ratelst) / len(ratelst)
+        
         return render(request,"articletable.html",{"articlesnames":articlesnames})
     articlesnames = Article.objects.filter(lessons_id = id)
+    # comments = Comment.objects.filter(article = articlesnames)
+
+    # ratelst = []
+    # for i in comments:
+    #     ratelst.append(i.rate)
+
+    # avg = sum(ratelst) / len(ratelst)                        
 
     return render(request,"articletable.html",{"articlesnames":articlesnames})
 

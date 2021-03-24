@@ -1,7 +1,7 @@
 from django import forms
 
-from .models import Article, ArticleDeleteRequest, Comment, Images
-
+from .models import Article, ArticleDeleteRequest, Comment, Images,Files
+from django.forms.widgets import ClearableFileInput
 
 class ArticleForm(forms.ModelForm):
     class Meta:
@@ -21,7 +21,18 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ["article_image"]
+        widgets = {
+            'article_image': ClearableFileInput(attrs={'multiple': True}),
+        }
 
+
+class FileForm(forms.ModelForm):
+    class Meta:
+        model = Files
+        fields = ["myFile"]
+        widgets = {
+            'myFile': ClearableFileInput(attrs={'multiple': True}),
+        }
 
 class ArticleDeleteRequestForm(forms.ModelForm):
     class Meta:
