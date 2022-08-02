@@ -1,3 +1,6 @@
 /.vscode
 /env
 /.idea
+/temp.tx
+/profile_example.txt
+/pastebin.py

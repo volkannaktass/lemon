@@ -1,0 +1,114 @@
+
+{% extends "layoutwithout.html" %}
+
+{% block body %}
+{% load crispy_forms_tags %}  
+
+	<!--User-->
+	<br><br>
+<div class="row" style="margin-left: -250px;">
+  <div class="col-5">
+    <div class="col-10">
+       <img class="rounded-circle account-img"  src="{{ request.user.userprofile.image.url }}">
+       <br><br>
+       <br>
+       
+      <table class="table table-hover">
+      <tbody>
+  <tr>
+      <th scope="row" class="fa fa-fw fa-home"></th>
+      <td>{{request.user.username}}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="fa fa-fw fa-wrench"></th>
+      <td>{{request.user.userprofile.student_number}}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="fa fa-fw fa-user"></th>
+      <td>{{request.user.userprofile.departments}}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="fa fa-fw fa-envelope"></th>
+      <td>#{{count}}</td>
+    </tr>
+    
+      </tbody>
+  </table>
+  </div>
+  </div>  
+  <div class="col">  
+{% if articles %}
+{% for article in articles %}
+	
+
+      <!-- Post Content Column -->
+      <div class="col-lg-12">
+
+        <!-- Title -->
+        <a href="{% url 'article:detail' article.id
+        %}"><h2 class="mt-4" style="font-weight: bold; color: black;">{{article.title}}</h2></a>
+
+        <!-- Author -->
+        <p class="lead">
+          
+         Published by {{article.author.username}} 
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>{{article.created_date}}  --->  {{article.using_status}}
+        {% if request.user.username == article.author.username %}
+        <a href="{% url 'article:update' article.id %}">&#8853;</a>
+        {% endif %}
+        </p>
+
+        <hr>
+        
+        <!-- Preview Image -->
+            <!-- eger related name vermediysen image_set yapman lazim
+         image modelini gosterir -->
+	{% if article.resimler.count != 0 %}
+        <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.resimler.all.0.article_image.url}}" alt=""></a>
+         <!--  <p>{{article.resimler.all}}{{ article.id}}</p>
+         queryseti gormek icin -->
+       
+        {% endif %}
+        <hr>
+ 
+        <!-- Post Content -->
+        <p class="lead">
+          {{article.content|safe|truncatewords:50}}
+	  <br>
+	  <br>
+	  <a style="float : right;" href="{% url 'article:detail' article.id %}" class="btn btn-danger">Read More</a>
+
+	</p>
+         <br>
+	 
+	 <hr>
+
+	 <br>
+      </div>
+
+{% endfor %}
+
+
+
+{% else %}
+<div class="row">
+  <div class="col-md-10 offset-md-3">        
+      <div class="col-lg-8"> 
+          <div class = "alert alert-danger">
+             Article Not Found
+          </div>
+      </div>
+  </div>
+</div>
+{% endif %}
+
+		   </div> 
+</div>
+</div>
+
+{% endblock body %}

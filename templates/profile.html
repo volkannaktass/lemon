@@ -1,27 +1,15 @@
 {% extends "layoutwithout.html" %}
-{% load crispy_forms_tags %}
+{% block content %}
 
-{% block body %}
+{% load crispy_forms_tags %}  
 
-<aside>
-<div class="sidebar">
-  <img float: right; class="rounded-circle account-img"  src="{{ request.user.userprofile.image.url }}">
-  <br><br>
-  <ul>
-  <a href="#"><i class="fa fa-fw fa-home"></i> {{request.user.username}}</a>
-  <a href="#"><i class="fa fa-fw fa-wrench"></i>{{request.user.userprofile.student_number}}</a>
-  <a href="#"><i class="fa fa-fw fa-user"></i>{{request.user.userprofile.departments}}</a> 
-  <a href="#"><i class="fa fa-fw fa-envelope"></i>#{{count}}</a>
-  </ul>
-  </aside>
+	<!--User-->
+	<br><br>
 
-
-
-<div class="container">
 {% if articles %}
 {% for article in articles %}
 <div class="row">
-  <div class="col-md-10 offset-md-3">  
+  <div class="col-md-10 offset-md-5">  
 
       <!-- Post Content Column -->
       <div class="col-lg-8">
@@ -50,11 +38,11 @@
             <!-- eger related name vermediysen image_set yapman lazim
          image modelini gosterir -->
 	{% if article.resimler.count != 0 %}
-          <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.resimler.all.0.article_image.url}}" alt=""></a>
+        <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.resimler.all.0.article_image.url}}" alt=""></a>
          <!--  <p>{{article.resimler.all}}{{ article.id}}</p>
          queryseti gormek icin -->
        
-          {% endif %}
+        {% endif %}
         <hr>
  
         <!-- Post Content -->
@@ -86,8 +74,8 @@
 </div>
 {% endif %}
 
+		   </div> 
+</div>
 </div>
 
-</div>
-
-{% endblock body %}
+	{% endblock %}

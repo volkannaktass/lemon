@@ -15,6 +15,7 @@ urlpatterns = [
     path('deleteaccount/',views.deleteaccount,name = "deleteaccount"),
     path('deleteac/<int:id>',views.deleteac,name = "deleteac"),
     path('copyac/<int:id>',views.copyaccount,name = "copyac"),
+    #path('profile/',views.profileUser,name = "profile"),
     path('profile/',views.profileUser,name = "profile"),
     path('password-change/',PasswordChangeView.as_view(),name= 'password_change'),
     path('password-change-done/',PasswordChangeDoneView.as_view(),name='password_change_done'),

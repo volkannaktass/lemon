@@ -1,0 +1,22 @@
+{% load static %}
+
+<main role="main" class="container">
+      <div class="row" style="float:left;>
+        <div class="col-md-8">
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <img float: right; class="rounded-circle account-img"  src="{{ request.user.userprofile.image.url }}">
+  <br><br>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">{{request.user.username}}</li>
+                <li class="list-group-item list-group-item-light">{{request.user.userprofile.student_number}}</li>
+                <li class="list-group-item list-group-item-light">{{request.user.userprofile.departments}}</li>
+                <li class="list-group-item list-group-item-light">{{count}}</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>

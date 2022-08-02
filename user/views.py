@@ -216,12 +216,12 @@ def change_password(request):
 def profileUser(request):
     count = Article.objects.filter(author = request.user).count()
     articles = Article.objects.filter(author=request.user)
-   
+    print(articles)
     context = {
        'count':count,
        'articles':articles,
     }
-    return render(request,"profile.html",context)    
+    return render(request,"user_profile.html",context)    
 
 
 

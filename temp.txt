@@ -1,0 +1,81 @@
+{% extends "layout_profile.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+
+<div class="container" style="float:right;>
+{% if articles %}
+{% for article in articles %}
+<div class="row">
+  <div class="col-md-10 offset-md-5">  
+
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+
+        <!-- Title -->
+        <a href="{% url 'article:detail' article.id %}"><h2 class="mt-4">{{article.title}}</h2></a>
+
+        <!-- Author -->
+        <p class="lead">
+          
+         Published by {{article.author.username}} 
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>{{article.created_date}}  --->  {{article.using_status}}
+        {% if request.user.username == article.author.username %}
+        <a href="{% url 'article:update' article.id %}">&#8853;</a>
+        {% endif %}
+        </p>
+
+        <hr>
+        
+        <!-- Preview Image -->
+            <!-- eger related name vermediysen image_set yapman lazim
+         image modelini gosterir -->
+	{% if article.resimler.count != 0 %}
+          <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.resimler.all.0.article_image.url}}" alt=""></a>
+         <!--  <p>{{article.resimler.all}}{{ article.id}}</p>
+         queryseti gormek icin -->
+       
+          {% endif %}
+        <hr>
+ 
+        <!-- Post Content -->
+        <p class="lead">
+            {{article.content|safe|truncatewords:50}}
+        </p>
+        <hr>
+        <a style="float : right;" href="{% url 'article:detail' article.id %}" class="btn btn-danger">Read More</a>
+          
+
+      </div>
+      
+      
+      </div>
+    </div>
+{% endfor %}
+
+
+
+{% else %}
+<div class="row">
+  <div class="col-md-10 offset-md-3">        
+      <div class="col-lg-8"> 
+          <div class = "alert alert-danger">
+             Article Not Found
+          </div>
+      </div>
+  </div>
+</div>
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock body %}
