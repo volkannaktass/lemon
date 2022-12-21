@@ -1,0 +1,15 @@
+version: "3.4"
+services:
+  lemon-app:
+    build: .
+    container_name: lemon
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - db:/code
+      #- lemon-app-data:/data/db
+
+volumes:
+  db:
