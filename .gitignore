@@ -4,3 +4,7 @@
 temp.tx
 profile_example.txt
 pastebin.py
+.venv/
+./venv
+./.serverless
+./.env

@@ -1,0 +1,28 @@
+service: wikiwolkie
+
+provider:
+  name: aws
+  region: eu-central-1
+
+  ecr:
+    images:
+      frontend:
+        path: ./
+
+  httpApi:
+    cors: true
+    disableDefaultEndpoint: true
+
+functions:
+  frontend:
+    image:
+      name: frontend
+    memorySize: 1024
+    timeout: 900
+    events:
+      - httpApi:
+          path: /
+          method: '*'
+      - httpApi:
+          path: /{proxy+}
+          method: '*'

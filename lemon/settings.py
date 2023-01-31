@@ -9,9 +9,18 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from pathlib import Path
 import os
 
+
+
+import environ
+
+ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
+env = environ.Env()
+READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=True)
+if READ_DOT_ENV_FILE:
+    env.read_env(str(ROOT_DIR / '.env'))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +29,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'aj3mgg=fr1&q@uyy)qmp^9z9wtjn*9e=j#@=b@fh+3fd_%125!'
-
+#SECRET_KEY = 'aj3mgg=fr1&q@uyy)qmp^9z9wtjn*9e=j#@=b@fh+3fd_%125!'
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='<some-secured-key>')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]#os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split() '0.0.0.0'
+#ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
+ALLOWED_HOSTS = ["*"]
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -162,3 +172,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'volkanaktas98@gmail.com'
 EMAIL_HOST_PASSWORD = 'swqhnegtlxanfchz'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

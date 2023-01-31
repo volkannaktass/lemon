@@ -1,5 +1,5 @@
 asgiref
-Django==3.1.1
+Django
 django-ckeditor
 django-cleanup
 django-crispy-forms
@@ -10,3 +10,10 @@ requests
 requests-unixsocket
 pytz==2021.1
 sqlparse==0.4.1
+environ
+django-environ
+serverless-wsgi
+boto3
+dj_database_url
+django_cockroachdb
+psycopg2-binary

@@ -13,6 +13,12 @@ from user.models import UserProfile
 from .forms import ArticleDeleteRequestForm, ArticleForm, ImageForm,FileForm
 from .models import Article, ArticleDeleteRequest, Comment, Images,Files
 from django.views.decorators.http import require_http_methods
+
+import environ
+env = environ.Env()
+import boto3
+from boto3.session import Session
+
 # Create your views here.
 
 @login_required(login_url = "user:login")
@@ -66,11 +72,26 @@ def addArticle(request):
         article.author = request.user
         article.save()
         for i in images:
-            image_instance = Images(article_image=i,article=article)
-            image_instance.save()
+            if os.environ['DJANGO_SETTINGS_MODULE'] == "lemon.prod":
+                
+                session = boto3.session.Session(aws_access_key_id=AWS_S3_ACCESS_KEY_ID,
+                                    aws_secret_access_key=AWS_S3_SECRET_ACCESS_KEY)
+                s3 = session.resource('s3')
+                s3.Bucket(env("AWS_STORAGE_BUCKET_NAME")).put_object(Key=i.name, Body=i)
+            else:
+                image_instance = Images(article_image=i,article=article)
+                image_instance.save()
+                
         for f in files:
-            file_instance = Files(myFile=f,article=article)
-            file_instance.save()
+            if os.environ['DJANGO_SETTINGS_MODULE'] == "lemon.prod":
+                
+                session = boto3.session.Session(aws_access_key_id=env("AWS_S3_ACCESS_KEY_ID"),
+                                    aws_secret_access_key=env("AWS_S3_SECRET_ACCESS_KEY"))
+                s3 = session.resource('s3')
+                s3.Bucket(env("AWS_STORAGE_BUCKET_NAME")).put_object(Key=f.name, Body=f)
+            else:
+                file_instance = Files(myFile=f,article=article)
+                file_instance.save()
     
         messages.success(request,"The article was created successfully!")
         return redirect("article:dashboard")
@@ -98,11 +119,25 @@ def updateArticle(request,id):
         article.author = request.user
         article.save()
         for i in images:
-            image_instance = Images(article_image=i,article=article)
-            image_instance.save()
+            if os.environ['DJANGO_SETTINGS_MODULE'] == "lemon.prod":
+                
+                session = boto3.session.Session(aws_access_key_id=AWS_S3_ACCESS_KEY_ID,
+                                    aws_secret_access_key=AWS_S3_SECRET_ACCESS_KEY)
+                s3 = session.resource('s3')
+                s3.Bucket(env("AWS_STORAGE_BUCKET_NAME")).put_object(Key=i.name, Body=i)
+            else:
+                image_instance = Images(article_image=i,article=article)
+                image_instance.save()
         for f in files:
-            file_instance = Files(myFile=f,article=article)
-            file_instance.save()
+            if os.environ['DJANGO_SETTINGS_MODULE'] == "lemon.prod":
+                
+                session = boto3.session.Session(aws_access_key_id=env("AWS_S3_ACCESS_KEY_ID"),
+                                    aws_secret_access_key=env("AWS_S3_SECRET_ACCESS_KEY"))
+                s3 = session.resource('s3')
+                s3.Bucket(env("AWS_STORAGE_BUCKET_NAME")).put_object(Key=f.name, Body=f)
+            else:
+                file_instance = Files(myFile=f,article=article)
+                file_instance.save()
 
 
         messages.success(request,"Updated with Success")
